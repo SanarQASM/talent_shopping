@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="672.0" style="-fx-background-color: #7C8363;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.mainFrame_user">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane fx:id="borderPane" prefHeight="400.0" prefWidth="600.0" styleClass="tabForm" stylesheets="@application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <left>
+                  <VBox fx:id="tabForm_user_vbox" alignment="CENTER" prefHeight="200.0" prefWidth="75.0" spacing="15.0" styleClass="tabForm" stylesheets="@application.css" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="systemIcon" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../image/logoSystemImage.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" text="sanar qasm awla ahmad" textAlignment="CENTER" textFill="#7c8363" visible="false" wrapText="true">
+                                 <font>
+                                    <Font name="Rockwell Condensed" size="2.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <Pane prefHeight="0.0" prefWidth="75.0" VBox.vgrow="ALWAYS" />
+                        <VBox fx:id="homePageVbox" alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="homeIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/home-page.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="homeLabel" contentDisplay="CENTER" text="Home" textFill="#7c8363" visible="false">
+                                 <font>
+                                    <Font name="Rockwell Condensed" size="2.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </VBox>
+                        <VBox fx:id="newItemPageVbox" alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="newItemIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/new-product.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="newItemLabel" text="New Item" textFill="#7c8363" visible="false">
+                                 <font>
+                                    <Font name="Rockwell Condensed" size="2.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </VBox>
+                        <VBox fx:id="bestSallCategoryVbox" alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="bestSellIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/best-sell.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="bestSellLabel" text="Best seller" textFill="#7c8363" visible="false">
+                                 <font>
+                                    <Font name="Rockwell Condensed" size="2.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </VBox>
+                        <VBox fx:id="checkoutPageVbox" alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="checkoutIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/shopping-cart.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="checkoutLabel" text="checkout" textFill="#7c8363" visible="false">
+                                 <font>
+                                    <Font name="Rockwell Condensed" size="2.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </VBox>
+                        <VBox fx:id="aboutUsPageVbox" alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="aboutUsIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/about-us.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="aboutUsLabel" text="about us" textFill="#7c8363" visible="false">
+                                 <font>
+                                    <Font name="Rockwell Condensed" size="2.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </VBox>
+                        <Pane prefHeight="0.0" prefWidth="75.0" VBox.vgrow="ALWAYS" />
+                        <Pane layoutX="10.0" layoutY="40.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="settingIcon" fitHeight="10.0" fitWidth="10.0" onMouseClicked="#openSetting" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../image/setting.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" />
+                           </VBox.margin></Pane>
+                     </children>
+                  </VBox>
+               </left>
+               <center>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="mainForm" stylesheets="@application.css" BorderPane.alignment="CENTER">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <BorderPane.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </BorderPane.margin>
+                     <children>
+                        <HBox fx:id="tabCategories_user_hbox" alignment="CENTER" layoutX="16.0" layoutY="-5.0" prefHeight="90.0" prefWidth="496.0" spacing="20.0" styleClass="tabCategory" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <VBox fx:id="allCategoryVbox" alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="categoryIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/categories.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="categoryLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="all category" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="laptopCategoryVbox" alignment="CENTER" layoutX="239.0" layoutY="15.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="laptopIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/laptop-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="laptopLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="laptop" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="pcCategoryVbox" alignment="CENTER" layoutX="261.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="pcIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/pc-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="pcLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="computer" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="smartPhoneCategoryVbox" alignment="CENTER" layoutX="282.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="iphoneIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/iphone-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="iphoneLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="smart phone" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="tabletCategoryVbox" alignment="CENTER" layoutX="304.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="tabletIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/tablet-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="tabletLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="tablet" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="phoneCaseCategoryVbox" alignment="CENTER" layoutX="325.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="phoneCaseIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/phone-case-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="phoneCaseLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="phone case" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="smartWatchCategoryVbox" alignment="CENTER" layoutX="347.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="smartWatchIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/smartwatch-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="smartWatchLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="smart watch" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="tvCategoryVbox" alignment="CENTER" layoutX="368.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="smartTvIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/smart-tv-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="smartTvLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="televetion" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="headphoneCategoryVbox" alignment="CENTER" layoutX="390.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="headphoneIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/headphones-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="headphoneLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="headphone" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <VBox fx:id="cameraCategoryVbox" alignment="CENTER" layoutX="411.0" layoutY="10.0" spacing="10.0">
+                                 <children>
+                                    <ImageView fx:id="cameraIcon" fitHeight="50.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/camera-category.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="cameraLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" text="camera" textAlignment="CENTER" textFill="#00b4d8" visible="false" wrapText="true">
+                                       <font>
+                                          <Font name="Rockwell Condensed" size="2.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <ScrollPane fx:id="scrollPane" layoutX="10.0" layoutY="108.0" prefHeight="266.0" prefWidth="563.0" styleClass="mainPage" stylesheets="@application.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="130.0">
+                           <content>
+                              <GridPane fx:id="mainGridPane" alignment="CENTER" hgap="10.0" vgap="10.0">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <columnConstraints>
+                                    <ColumnConstraints />
+                                 </columnConstraints>
+                              </GridPane>
+                           </content>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</StackPane>

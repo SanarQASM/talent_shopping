@@ -1,0 +1,267 @@
+.createShelves_Button{
+    -fx-background-color: black;
+    -fx-background-radius: 10;
+    -fx-fill: #18f08a;
+    -fx-border-color: #18f08a;
+    -fx-border-radius: 10;
+    -fx-border-style: solid;
+}
+.createShelves_Button:hover{
+    -fx-background-color: #18f08a;
+    -fx-background-radius: 10;
+    -fx-fill: black;
+    -fx-border-color: #18f08a;
+    -fx-border-radius: 10;
+    -fx-border-style: solid;
+}
+.search_Label:hover{
+    -fx-opacity: 1;
+}
+.allCategoriesHover:hover{
+    -fx-background-radius: 10;
+    -fx-background-color: #18f08a;
+    -fx-border-color:black;
+    -fx-border-radius: 10;
+    -fx-border-style: solid;
+    -fx-opacity: 1;
+    -fx-effect: dropshadow( gaussian , rgba(192,192,192,0.6) , 10, 0.5 , 2 , 2 );
+}
+.allCategoriesaAction:pressed{
+    -fx-background-color: #18f08a;
+    -fx-opacity: 0.1;
+}
+.allCategoriesBackGround{
+    -fx-background-color: transparent;
+    -fx-opacity: 1;
+}
+
+.imageWithButton{
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-border-style: solid;
+    -fx-background-color: white;
+}
+.ThreeButton{
+    -fx-background-color: white;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-border-style: solid;
+    -fx-border-color:white;
+}
+.buttonWithImage{
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-style: solid;
+    -fx-border-color:white;
+}
+.transmate{
+    -fx-background-color: transparent;
+}
+.recommend_Hbox{
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-style: solid;
+    -fx-effect: dropshadow( gaussian , rgba(192,192,192,0.6) , 10, 0.5 , 2 , 2 );
+}
+.searchLabel{
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow( gaussian , rgba(192,192,192,0.6) , 10, 0.5 , 2 , 2 );
+}
+.textLabelName{
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow( gaussian , rgba(192,192,192,0.6) , 10, 0.5 , 2 , 2 );
+}
+
+.switchAnchor{
+    -fx-background-color: linear-gradient(to top left , #ff003f, #00b4d8);
+}
+.deleteItem{
+    -fx-background-color: linear-gradient(to top left,#7C0101,#025768);
+}
+.hboxAddBook{
+    -fx-background-color: linear-gradient(to left bottom , #ff003f, #00b4d8);
+}
+.background{
+    -fx-background-color: linear-gradient(to left bottom , #ca4163, #00b4d8);
+}
+.actionForAllButton:pressed {
+    -fx-background-color: linear-gradient(to top left , #2986cc, #9fc5e8);
+}
+.bothForm{
+    -fx-background-color: linear-gradient(to top left , #ffffff, #fefee3);
+}
+.mainForm{
+    -fx-background-color: #EDF4F2;
+    -fx-background-radius: 25px 0 0 25px ;
+}
+.tabCategory{
+    -fx-background-color: #31473A;
+    -fx-background-radius: 15px 0 0 15px;
+}
+.tabForm{
+    -fx-background-color: #31473A;
+}
+
+.textLabel{
+    -fx-border-width: 0 0 0 3px;
+    -fx-padding:0 0 0 1px;
+    -fx-border-style: solid;
+}
+.allButton{
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-style: none;
+    -fx-effect: dropshadow( gaussian , rgba(192,192,192,0.6) , 10, 0.5 , 2 , 2 );
+}
+.switchAnchorButton:hover {
+    -fx-background-color: linear-gradient(to bottom right, rgba(0, 119, 182, 0.6),rgba(255, 0, 63, 0.6));
+}
+
+.bothFormButton:hover {
+    -fx-background-color: linear-gradient(to bottom right, #F5F7F8, #ECF4D4);
+}
+.enterInformation:hover{
+    -fx-border-color: #0077b6;
+    -fx-border-width: 0 0 2px 0 ;
+    -fx-border-style: solid;
+}
+.textInformation{
+    -fx-border-color: #00b4d8;
+    -fx-border-style: solid;
+    -fx-border-radius: 5px;
+    -fx-border-width: 0.2px;
+}
+.bookInformationHover:hover{
+    -fx-border-color: black;
+    -fx-border-width: 0 0 2px 0 ;
+    -fx-border-style: solid;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill:white;
+}
+.bookInformationHover{
+    -fx-border-color: white;
+    -fx-border-style: solid;
+    -fx-border-radius: 5px;
+    -fx-border-width: 0.5px;
+    -fx-text-fill: black;
+    -fx-prompt-text-fill:black;
+}
+.labelBookInformation{
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-radius:5px ;
+    -fx-border-width: 0 0 0.5px 0;
+}
+.comboBox{
+    -fx-font-family: Rockwell Condensed;
+    -fx-font-size: 14;
+}
+.comboBoxText .text {
+    -fx-fill: white;
+}
+.comboBoxTextItem .list-cell {
+    -fx-background-color: #0C356A;
+    -fx-text-fill: white;
+}
+.comboBoxTextHover .list-cell:hover {
+    -fx-cursor: hand;
+    -fx-background-color: black;
+}
+.comboBoxTextSelected .list-cell:selected {
+    -fx-background-color: #0077b6;
+}
+.forgetPasswordHyperlink:hover{
+    -fx-text-fill: #0077b6;
+}
+.yourTobBook{
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-style: solid;
+    -fx-border-color: #18f08a;
+    -fx-background-color: linear-gradient(to top left , #ffffff, #fefee3);
+}
+.otherTobBook{
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-style: solid;
+    -fx-border-color: #18f08a;
+    -fx-fill: linear-gradient(to top left , #ffffff, #fefee3);
+}
+
+.textareaDescribtion{
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-border-style: solid;
+    -fx-border-color: #18f08a;
+}
+.card{
+    -fx-background-color: #EDF4F2;
+    -fx-background-radius: 25px;
+    -fx-border-color: #31473A;
+    -fx-border-radius: 15px;
+    -fx-border-width: 3px;
+}
+.fontTitle{
+    -fx-text-fill:#7C8363;
+    -fx-font-size: 18px;
+    -fx-font-family: "Rockwell Condensed";
+}
+.fontSubTitle{
+    -fx-text-fill:#31473A;
+    -fx-font-size: 18px;
+    -fx-font-family: "Rockwell Condensed";
+}
+.fontParagraph{
+    -fx-text-fill:#7C8363;
+    -fx-font-size: 15px;
+    -fx-font-family: "Rockwell Condensed";
+}
+.checkOut{
+    -fx-background-color: #31473A;
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-style: none;
+    -fx-text-fill: #EDF4F2;
+}
+.checkOut:hover{
+    -fx-background-color: #7C8363;
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-style: none;
+    -fx-text-fill: #31473A;
+}
+
+/* ScrollPane background color */
+.scroll-pane {
+    -fx-background-color: #7C8363;
+    -fx-background-radius: 15px;
+}
+
+/* For ScrollPane viewport content */
+.scroll-pane .viewport {
+    -fx-background-color: #7C8363;
+    -fx-background-radius: 15px;
+}
+/* GridPane background color */
+.grid-pane {
+    -fx-background-color: #7C8363;
+    -fx-background-radius: 15px;
+}
+
+/* CSS for selected VBox */
+.selected-vbox {
+    -fx-background-color: #EDF4F2;
+    -fx-border-radius: 25px;
+    -fx-border-color: transparent;
+}
+
+/* CSS for text fill color */
+.text-selected {
+    -fx-fill: #31473A;
+}

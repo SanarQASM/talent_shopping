@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.accountController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="600.0">
+         <children>
+            <AnchorPane fx:id="loginForm" layoutX="296.0" layoutY="5.0" prefHeight="400.0" prefWidth="300.0" styleClass="bothForm" stylesheets="@application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="59.0" layoutY="44.0" prefHeight="26.0" prefWidth="165.0" style="-fx-border-color: #00b4d8;" styleClass="textLabel" stylesheets="@application.css" text="Log in account" textAlignment="CENTER" textFill="#00b4d8">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="si_username" focusTraversable="false" layoutX="45.0" layoutY="158.0" prefHeight="35.0" prefWidth="200.0" promptText="username or email" stylesheets="@application.css">
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="transmate" />
+                        <String fx:value="textInformation" />
+                     </styleClass>
+                  </TextField>
+                  <ImageView fx:id="logInIcon" fitHeight="68.0" fitWidth="71.0" layoutX="109.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/login.png" />
+                     </image>
+                  </ImageView>
+                  <Hyperlink focusTraversable="false" layoutX="165.0" layoutY="340.0" onAction="#forgetPassword" prefHeight="23.0" prefWidth="113.0" style="-fx-text-fill: #00b4d8;" styleClass="forgetPasswordHyperlink" stylesheets="@application.css" text="Forget Password" textFill="#00b4d8" underline="true">
+                     <font>
+                        <Font name="Perpetua Bold Italic" size="14.0" />
+                     </font>
+                  </Hyperlink>
+                  <Button alignment="CENTER" layoutX="70.0" layoutY="289.0" mnemonicParsing="false" onAction="#si_logIn" prefHeight="40.0" prefWidth="155.0" stylesheets="@application.css" text="Log In" textFill="WHITE">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="16.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="switchAnchor" />
+                        <String fx:value="allButton" />
+                        <String fx:value="switchAnchorButton" />
+                        <String fx:value="actionForAllButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <ImageView fx:id="showPass" fitHeight="24.0" fitWidth="24.0" layoutX="220.0" layoutY="247.0" onMouseClicked="#showPassAction" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="247.0">
+                     <image>
+                        <Image url="@../image/hidePass.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <PasswordField fx:id="si_passwordPass" focusTraversable="false" layoutX="45.0" layoutY="211.0" prefHeight="35.0" prefWidth="200.0" promptText="password" stylesheets="@application.css">
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="textInformation" />
+                        <String fx:value="transmate" />
+                     </styleClass>
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <TextField fx:id="si_passwordText" focusTraversable="false" layoutX="45.0" layoutY="211.0" prefHeight="35.0" prefWidth="200.0" promptText="password" stylesheets="@application.css" visible="false">
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="transmate" />
+                        <String fx:value="textInformation" />
+                     </styleClass>
+                  </TextField>
+                  <Label fx:id="si_errorUserName" layoutX="50.0" layoutY="193.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="si_errorPassword" layoutX="45.0" layoutY="245.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="rememberMe" layoutX="45.0" layoutY="260.0" mnemonicParsing="false" text="Remember Me" textFill="#00b4d8">
+                     <font>
+                        <Font name="Rockwell Bold" size="10.0" />
+                     </font>
+                  </CheckBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="400.0" prefWidth="300.0" styleClass="bothForm" stylesheets="@application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="68.0" layoutY="18.0" prefHeight="26.0" prefWidth="165.0" style="-fx-border-color: #00b4d8;" styleClass="textLabel" stylesheets="@application.css" text="Register Account" textAlignment="CENTER" textFill="#00b4d8">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="su_username" focusTraversable="false" layoutX="50.0" layoutY="137.0" prefHeight="35.0" prefWidth="200.0" promptText="username" stylesheets="@application.css">
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="transmate" />
+                        <String fx:value="textInformation" />
+                     </styleClass>
+                  </TextField>
+                  <ImageView fx:id="registerIcon" fitHeight="81.0" fitWidth="77.0" layoutX="107.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/register.png" />
+                     </image>
+                  </ImageView>
+                  <Button alignment="CENTER" layoutX="70.0" layoutY="346.0" mnemonicParsing="false" onAction="#su_SignUp" prefHeight="40.0" prefWidth="155.0" stylesheets="@application.css" text="Sign Up" textFill="#fefee3">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="16.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="switchAnchor" />
+                        <String fx:value="allButton" />
+                        <String fx:value="switchAnchorButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <ImageView fx:id="showPass1" fitHeight="23.0" fitWidth="24.0" layoutX="250.0" layoutY="219.0" onMouseClicked="#showPassAction1" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/hidePass.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <PasswordField fx:id="su_passwordPass" focusTraversable="false" layoutX="50.0" layoutY="189.0" prefHeight="35.0" prefWidth="200.0" promptText="password" stylesheets="@application.css">
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="textInformation" />
+                        <String fx:value="transmate" />
+                     </styleClass>
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                  </PasswordField>
+                  <TextField fx:id="su_passwordText" focusTraversable="false" layoutX="50.0" layoutY="189.0" prefHeight="35.0" prefWidth="200.0" promptText="password" stylesheets="@application.css" visible="false">
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="transmate" />
+                        <String fx:value="textInformation" />
+                     </styleClass>
+                  </TextField>
+                  <TextField fx:id="su_answer" focusTraversable="false" layoutX="50.0" layoutY="293.0" prefHeight="35.0" prefWidth="200.0" promptText="answer" stylesheets="@application.css">
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="transmate" />
+                        <String fx:value="textInformation" />
+                     </styleClass>
+                  </TextField>
+                  <ComboBox fx:id="su_question" layoutX="50.0" layoutY="244.0" prefHeight="35.0" prefWidth="200.0" promptText="Question" stylesheets="@application.css">
+                     <styleClass>
+                        <String fx:value="allButton" />
+                        <String fx:value="switchAnchor" />
+                        <String fx:value="switchAnchorButton" />
+                        <String fx:value="comboBox" />
+                        <String fx:value="comboBoxText" />
+                        <String fx:value="comboBoxTextHover" />
+                        <String fx:value="comboBoxTextItem" />
+                        <String fx:value="comboBoxTextSelected" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ComboBox>
+                  <Label fx:id="su_errorUserName" layoutX="50.0" layoutY="171.0" prefHeight="15.0" prefWidth="180.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="su_errorUserPass" layoutX="50.0" layoutY="223.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="su_errorQuestion" layoutX="50.0" layoutY="279.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="su_errorAnswer" layoutX="50.0" layoutY="328.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="forgetPasswordForm" layoutX="300.0" layoutY="5.0" prefHeight="400.0" prefWidth="300.0" styleClass="bothForm" stylesheets="@application.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="64.0" layoutY="22.0" prefHeight="26.0" prefWidth="165.0" style="-fx-border-color: #00b4d8;" styleClass="textLabel" stylesheets="@application.css" text="Forget password" textAlignment="CENTER" textFill="#00b4d8">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="forgetIcon" fitHeight="81.0" fitWidth="77.0" layoutX="105.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/forgot-password.png" />
+                     </image>
+                  </ImageView>
+                  <Button alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="10.0" layoutX="70.0" layoutY="292.0" mnemonicParsing="false" onAction="#proceed" prefHeight="40.0" prefWidth="155.0" stylesheets="@application.css" text="Proceed" textAlignment="CENTER" textFill="#fefee3">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="16.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="switchAnchor" />
+                        <String fx:value="allButton" />
+                        <String fx:value="switchAnchorButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/next.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="forgetUsername" focusTraversable="false" layoutX="50.0" layoutY="138.0" prefHeight="35.0" prefWidth="200.0" promptText="username or email" stylesheets="@application.css">
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="transmate" />
+                        <String fx:value="textInformation" />
+                     </styleClass>
+                  </TextField>
+                  <Label fx:id="forgetQuestionError" layoutX="50.0" layoutY="225.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="forgetAnswer" focusTraversable="false" layoutX="50.0" layoutY="242.0" prefHeight="35.0" prefWidth="200.0" promptText="answer" stylesheets="@application.css">
+                     <font>
+                        <Font name="Bodoni MT" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="enterInformation" />
+                        <String fx:value="transmate" />
+                        <String fx:value="textInformation" />
+                     </styleClass>
+                  </TextField>
+                  <ComboBox fx:id="forgetPassCombo" layoutX="50.0" layoutY="189.0" prefHeight="35.0" prefWidth="200.0" promptText="Question" stylesheets="@application.css">
+                     <styleClass>
+                        <String fx:value="allButton" />
+                        <String fx:value="switchAnchor" />
+                        <String fx:value="switchAnchorButton" />
+                        <String fx:value="comboBox" />
+                        <String fx:value="comboBoxText" />
+                        <String fx:value="comboBoxTextHover" />
+                        <String fx:value="comboBoxTextItem" />
+                        <String fx:value="comboBoxTextSelected" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ComboBox>
+                  <Label fx:id="forgetUsernameError" layoutX="50.0" layoutY="172.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="forgetAnswerError" layoutX="50.0" layoutY="277.0" prefHeight="15.0" prefWidth="140.0" textFill="RED">
+                     <font>
+                        <Font name="Times New Roman Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="CENTER" graphicTextGap="10.0" layoutX="98.0" layoutY="351.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="100.0" stylesheets="@application.css" text="Back" textFill="#fefee3">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="16.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="switchAnchor" />
+                        <String fx:value="allButton" />
+                        <String fx:value="switchAnchorButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/previous.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="forgetPasswordWayForm" layoutX="300.0" prefHeight="400.0" prefWidth="300.0" style="-fx-opacity: 0.7;" styleClass="switchAnchor" stylesheets="@application.css" visible="false">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="47.0" prefHeight="27.0" prefWidth="239.0" text="Forget Password" textAlignment="CENTER" textFill="#fefee3">
+                     <font>
+                        <Font name="Rockwell Condensed" size="25.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="CENTER" layoutX="104.0" layoutY="160.0" mnemonicParsing="false" onAction="#email_code" prefHeight="29.0" prefWidth="110.0" stylesheets="@application.css" text="Email &amp; Code" textAlignment="CENTER" textFill="#00b4d8" wrapText="true">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="bothForm" />
+                        <String fx:value="allButton" />
+                        <String fx:value="bothFormButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <ImageView fitHeight="49.0" fitWidth="46.0" layoutX="14.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/forgetEmail.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="62.0" layoutY="108.0" prefHeight="46.0" prefWidth="189.0" style="-fx-border-color: #fefee3;" styleClass="textLabel" stylesheets="@application.css" text="Confirmation via email with sending code" textAlignment="CENTER" textFill="#fefee3" wrapText="true">
+                     <font>
+                        <Font name="Rockwell" size="14.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="CENTER" layoutX="92.0" layoutY="268.0" mnemonicParsing="false" onAction="#question_answer" prefHeight="29.0" prefWidth="141.0" stylesheets="@application.css" text="Question &amp; Answer" textAlignment="CENTER" textFill="#00b4d8" wrapText="true">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="bothForm" />
+                        <String fx:value="allButton" />
+                        <String fx:value="bothFormButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <ImageView fitHeight="49.0" fitWidth="46.0" layoutX="11.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/questionAnswer.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="62.0" layoutY="213.0" prefHeight="46.0" prefWidth="200.0" style="-fx-border-color: #fefee3;" styleClass="textLabel" stylesheets="@application.css" text="Via username and email with questions and answers" textAlignment="CENTER" textFill="#fefee3" wrapText="true">
+                     <font>
+                        <Font name="Rockwell" size="14.0" />
+                     </font>
+                  </Label>
+                  <Button alignment="CENTER" layoutX="113.0" layoutY="341.0" mnemonicParsing="false" onAction="#backToLoginForm" prefHeight="29.0" prefWidth="78.0" stylesheets="@application.css" text="Back" textAlignment="CENTER" textFill="#00b4d8" wrapText="true">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="bothForm" />
+                        <String fx:value="allButton" />
+                        <String fx:value="bothFormButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="anchorForm" layoutX="-4.0" prefHeight="400.0" prefWidth="300.0" styleClass="switchAnchor" stylesheets="@application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="59.0" layoutY="285.0" prefHeight="27.0" prefWidth="189.0" style="-fx-border-color: #fefee3;" styleClass="textLabel" stylesheets="@application.css" text="Create Account" textAlignment="CENTER" textFill="#fefee3">
+                     <font>
+                        <Font name="Rockwell" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="215.0" prefHeight="27.0" prefWidth="239.0" text="Talent Shopping" textAlignment="CENTER" textFill="#fefee3">
+                     <font>
+                        <Font name="Rockwell Condensed" size="26.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="createNewAccountButton" alignment="CENTER" layoutX="59.0" layoutY="336.0" mnemonicParsing="false" onAction="#createNewAccount" prefHeight="40.0" prefWidth="180.0" stylesheets="@application.css" text="Create New Account" textFill="#00b4d8">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="16.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="bothForm" />
+                        <String fx:value="allButton" />
+                        <String fx:value="bothFormButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="alreadyHaveAccountButton" alignment="CENTER" layoutX="59.0" layoutY="336.0" mnemonicParsing="false" onAction="#alreadyHaveAccount" prefHeight="40.0" prefWidth="180.0" stylesheets="@application.css" text="Already have an account" textFill="#00b4d8" visible="false">
+                     <font>
+                        <Font name="Rockwell Condensed Bold" size="15.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="bothForm" />
+                        <String fx:value="allButton" />
+                        <String fx:value="bothFormButton" />
+                     </styleClass>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <ImageView fx:id="shapeImage" fitHeight="77.0" fitWidth="77.0" layoutY="-34.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="357.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="223.0" AnchorPane.topAnchor="-34.0">
+                     <image>
+                        <Image url="@../image/shape.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="80.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="60.0">
+                     <image>
+                        <Image url="@../image/logoSystemImage.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
