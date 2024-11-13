@@ -18,10 +18,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class enterEmailController {
+
     private static Stage tempStage;
     private static accountController aC;
     private static enterEmailController eEC;
-    private static final NotificationsClass nC=new NotificationsClass();
+    private static final NotificationsClass nC= NotificationsClass.getInstance(tempStage);
     private static settingController sC;
     private static final Routes route=new Routes();
     private static final checkingMethod cM=new checkingMethod();
@@ -61,7 +62,7 @@ public class enterEmailController {
 
     public enterEmailController(accountController aC,boolean forgetPage,Stage stage,enterEmailController eEC){//open from signup or change password
         enterEmailController.aC = aC;
-        enterEmailController.forgetPage = forgetPage;
+        enterEmailController.forgetPage = forgetPage;//if true then it is in forget password through email else it is to register(signup)
         tempStage = stage;
         enterEmailController.eEC = eEC;
     }
@@ -83,7 +84,7 @@ public class enterEmailController {
                 aC = null;
             }else {//back to signup page
                 aC.showStage();
-                aC.setAllFormVisabiliityToBack();
+                aC.setAllFormVisibilityToBack();
                 aC=null;
             }
         }

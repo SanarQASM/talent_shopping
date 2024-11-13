@@ -42,7 +42,7 @@ public class ClientConnection {
             out.flush();
             return (String) in.readObject();
         } catch (Exception e) {
-            System.out.println("failed to send request in two parameters");
+            System.out.println(e.getMessage());
             return "Error in communication with server";
         }
     }

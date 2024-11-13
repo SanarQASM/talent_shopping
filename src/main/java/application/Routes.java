@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class Routes {
+    private static Routes routClass;
     private static FXMLLoader loader;
     public void openStage(String fxmlPath, String cssPath, String iconPath, String title, Consumer<Stage> onStageReady) throws IOException {
         loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -31,5 +32,11 @@ public class Routes {
     }
     public Object getController(){
         return loader.getController();
+    }
+    public static Routes getInstance(){
+        if(routClass == null){
+            routClass = new Routes();
+        }
+        return routClass;
     }
 }

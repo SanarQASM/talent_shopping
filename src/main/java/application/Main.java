@@ -75,12 +75,12 @@ import javafx.stage.StageStyle;
 import java.util.Optional;
 
 public class Main extends Application {
-    private static final NotificationsClass nC = new NotificationsClass();
-    private long start;
-
+    private static NotificationsClass nC;
+    private static long start;
     @Override
     public void start(Stage primaryStage) {
         start = System.nanoTime();
+            nC = NotificationsClass.getInstance(primaryStage);
             try {
                 Routes route = new Routes();
                 route.openStage(
@@ -99,16 +99,16 @@ public class Main extends Application {
                         }
                 );
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Failed to open account page");
                 nC.showNotificationSomethingWrong("Failed to open Login/Signup page");
             }
 
     }
-
     public static void main(String[] args) {
         launch(args);
     }
-    public void logout(Stage stage) {
+    public static void logout(Stage stage) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Logout");
         alert.setHeaderText("You're about to logout!");
@@ -125,7 +125,6 @@ public class Main extends Application {
             stage.close();
         }
     }
-
 }
 
 

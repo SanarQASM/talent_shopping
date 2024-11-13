@@ -9,7 +9,7 @@ public class settingController {
     private static settingController sC;
     private static mainFrame_user mF;
     private static Stage primaryStage;
-    private static final NotificationsClass nC=new NotificationsClass();
+    private static final NotificationsClass nC=NotificationsClass.getInstance(primaryStage);
     private static final Routes route=new Routes();
     public settingController(settingController sC, mainFrame_user mF, Stage primaryStage) {
         settingController.sC=sC;

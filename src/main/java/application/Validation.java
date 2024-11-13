@@ -1,14 +1,18 @@
 package application;
 
-public class Validation {
+import java.io.*;
+import java.util.List;
 
+public class Validation {
+    private static Validation vClass;
     private static final checkingMethod cM=new checkingMethod();
     private static accountController aC;
     private static final DatabaseConnection dB=new DatabaseConnection();
     private static enterEmailController eEC;
     private static changePasswordController cPC;
     private static EncryptionAndDecryptionPass eADP=new EncryptionAndDecryptionPass();
-    private final int port = 8888;
+    private final int port = 8080;
+    private static final String filePath = "D:/eclipse/IdeaProjects/E-commerce-shopping/src/main/resources/database.txt"; // Path of the file to write to
     private final ClientConnection clientConnection = new ClientConnection("localhost", port);
     private static String response;
     public Validation( accountController aC,changePasswordController cPC){
@@ -25,7 +29,13 @@ public class Validation {
         Validation.eEC = eEC;
         Validation.cPC = cPC;
     }
-
+    public Validation(){}
+    public static Validation getInstance(){
+        if (vClass==null){
+            vClass=new Validation();
+        }
+        return vClass;
+    }
     public void checkingUsername_Si(String SIUsername) throws Exception {
         //check the username in login
         if (SIUsername.isEmpty()) {
@@ -277,85 +287,84 @@ public class Validation {
 
     public boolean checkEmailInDatabase(String email)  {
         //check email in file
-//        String name = "";
-//        try {
-//            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-//            String line;
-//            List<String> list;
-//            while ((line = reader.readLine()) != null) {
-//                list = List.of(line.split(":"));
-//                if (list.getFirst().equals("email")) {
-//                    if (list.getLast().equals(email)) {
-//                        name = list.getLast();
-//                    } else {
-//                        name = "";
-//                    }
-//                }
-//            }
-//            reader.close();
-//        }catch(Exception e){
-//            messageTemp="Please try again later!";
-//            throw new Exception(messageTemp);
-//        }
-//        return name.isEmpty();
-
-        //check email in database
-        response = clientConnection.sendRequestWithOneParameter("CHECK_EMAIL", email);
-        System.out.println(response);  // Print the server's response to the console
-        return cM.checkReturnedResponse(response);
+        String name = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            List<String> list;
+            while ((line = reader.readLine()) != null) {
+                list = List.of(line.split(":"));
+                if (list.getFirst().equals("email")) {
+                    if (list.getLast().equals(email)) {
+                        name = list.getLast();
+                    } else {
+                        name = "";
+                    }
+                }
+            }
+            reader.close();
+        }catch(Exception e){
+            System.out.println("error ");
+        }
+        return !name.isEmpty();
+//
+//        //check email in database
+//        response = clientConnection.sendRequestWithOneParameter("CHECK_EMAIL", email);
+//        System.out.println(response);  // Print the server's response to the console
+//        return cM.checkReturnedResponse(response);
     }
     private boolean checkUsernameInDatabase(String username)  {
 //checking username in file:
-//        String name = "";
-//        try {
-//            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-//            String line;
-//            List<String> list;
-//            while ((line = reader.readLine()) != null) {
-//                list = List.of(line.split(":"));
-//                if (list.getFirst().equals("username")) {
-//                    if (list.getLast().equals(username)) {
-//                        name = list.getLast();
-//                    } else {
-//                        name = "";
-//                    }
-//                }
-//            }
-//            reader.close();
-//        }
-//        catch (Exception e) {
-//            System.out.println(e);
-//        }
-//        return !name.isEmpty();
+        String name = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            List<String> list;
+            while ((line = reader.readLine()) != null) {
+                list = List.of(line.split(":"));
+                if (list.getFirst().equals("username")) {
+                    if (list.getLast().equals(username)) {
+                        name = list.getLast();
+                    } else {
+                        name = "";
+                    }
+                }
+            }
+            reader.close();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+        return !name.isEmpty();
 
         //checking username in database:
-        response = clientConnection.sendRequestWithOneParameter("CHECK_USERNAME", username);
-        System.out.println(response);  // Print the server's response to the console
-        return cM.checkReturnedResponse(response);
+//        response = clientConnection.sendRequestWithOneParameter("CHECK_USERNAME", username);
+//        System.out.println(response);  // Print the server's response to the console
+//        return cM.checkReturnedResponse(response);
 
     }
-    private boolean checkPasswordInDatabaseWithUsername(String username, String password){
-        //checking password in database
-//        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-//        String line;
-//        String pass = "";
-//        List<String> list;
-//        while ((line = reader.readLine()) != null) {
-//            list= List.of(line.split(":"));
-//            if(list.getFirst().equals("password")){
-//                if(list.getLast().equals(password)){
-//                    pass=list.getLast();
-//                }
-//                else{
-//                    pass="";
-//                }
-//            }
-//        }
-//        reader.close();
-//        return pass.isEmpty();
-        response = clientConnection.sendRequestWithTwoParameter("CHECK_PASSWORD_USERNAME", username,password);
-        System.out.println(response);  // Print the server's response to the console
-        return cM.checkReturnedResponse(response);
+    private boolean checkPasswordInDatabaseWithUsername(String username, String password) throws IOException {
+//        checking password in database
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+        String pass = "";
+        List<String> list;
+        while ((line = reader.readLine()) != null) {
+            list= List.of(line.split(":"));
+            if(list.getFirst().equals("password")){
+                if(list.getLast().equals(password)){
+                    pass=list.getLast();
+                }
+                else{
+                    pass="";
+                }
+            }
+        }
+        reader.close();
+        return pass.isEmpty();
+//        response = clientConnection.sendRequestWithTwoParameter("CHECK_PASSWORD_USERNAME", username,password);
+//        System.out.println(response);  // Print the server's response to the console
+//        return cM.checkReturnedResponse(response);
     }
     private boolean checkPasswordInDatabaseWithEmail(String email,String password){
         response = clientConnection.sendRequestWithTwoParameter("CHECK_PASSWORD_EMAIL", email,password);
@@ -379,23 +388,28 @@ public class Validation {
 
 
     public boolean setAllInformationIndatabase(String username, String password, String email, int indexQuestoin, String answer) throws Exception {
-        //set user information in file:
-        //        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-//            writer.write("username:" + username + "\n"+
-//                    "password:" + password + "\n"+
-//                    "email:" + email + "\n"+
-//                    "indexQuestion:" + indexQuestoin + "\n"+
-//                    "Answer:" + answer + "\n"
-//                    );
-////            nC.showNotificationUserAddSuccessfully();
-//        } catch (IOException e) {
+        boolean result;
+//        set user information in file:
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("username:" + username + "\n"+
+                    "password:" + password + "\n"+
+                    "email:" + email + "\n"+
+                    "indexQuestion:" + indexQuestoin + "\n"+
+                    "Answer:" + answer + "\n"
+                    );
+            result=true;
+//            nC.showNotificationUserAddSuccessfully();
+        } catch (IOException e) {
+                    result=false;
 //            nC.showNotificaitonSomethingWrong("Can not add user to database!");
-//        }
+        }
+
+                return result;
         //set all information to database:
-        String generatedKey=eADP.generateSecretKey();
-        String encryptedPassword=eADP.encrypt(password);
-        response = clientConnection.sendRequestToSetUserInformation("SET_USER_INFORMATION", username,encryptedPassword,email,indexQuestoin,answer,generatedKey);
-        System.out.println(response);  // Print the server's response to the console
-        return cM.checkReturnedResponse(response);
+//        String generatedKey=eADP.generateSecretKey();
+//        String encryptedPassword=eADP.encrypt(password);
+//        response = clientConnection.sendRequestToSetUserInformation("SET_USER_INFORMATION", username,encryptedPassword,email,indexQuestoin,answer,generatedKey);
+//        System.out.println(response);  // Print the server's response to the console
+//        return cM.checkReturnedResponse(response);
     }
 }

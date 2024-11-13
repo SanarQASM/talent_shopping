@@ -3,7 +3,7 @@ package application;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private static final NotificationsClass nC = new NotificationsClass();
+    private static final NotificationsClass nC = NotificationsClass.getInstance(null);
     private static final checkingMethod cM = new checkingMethod();
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/talent_shopping";
     private static final String DATABASE_USER = "root";
@@ -16,7 +16,6 @@ public class DatabaseConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
             nC.showNotificationSomethingWrong("Failed to connect to the database");
         }
     }

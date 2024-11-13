@@ -43,7 +43,7 @@ public class changePasswordController{
     private static String messageTemp;
     private static Stage tempStage;
     private static accountController aC;
-    private static final NotificationsClass nC=new NotificationsClass();
+//    private static final NotificationsClass nC=NotificationsClass.getInstance();
     private static final checkingMethod cM = new checkingMethod();
     private static Validation validate;
     private static changePasswordController cPC;
@@ -74,7 +74,7 @@ public class changePasswordController{
         }
         else if(aC!=null) {//back to change login form
             aC.showStage();
-            aC.showForgetPasswordPage();
+            aC.setAllFormVisibilityToBack();
             System.out.println("back because aC!= null");
         }
 
@@ -119,7 +119,7 @@ public class changePasswordController{
     private void onTaskFailure() {
         Platform.runLater(() -> {
             setChangePasswordImage("/image/reset-password.png");
-            nC.showNotificationSomethingWrong(messageTemp);
+//            nC.showNotificationSomethingWrong(messageTemp);
         });
     }
     private void setChangePasswordImage(String imagePath) {
@@ -133,7 +133,7 @@ public class changePasswordController{
     }
     private void returnToLoginPage() {
         aC.showStage();
-        nC.showNotificationPasswordChangeSuccessfully();
+//        nC.showNotificationPasswordChangeSuccessfully();
         aC.setAllFormVisibility();
         aC = null;  // Release the controller reference after use
     }

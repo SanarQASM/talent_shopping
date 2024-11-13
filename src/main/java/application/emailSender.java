@@ -20,7 +20,7 @@ import jakarta.mail.internet.MimeMessage;
 
 public class emailSender {
     public static String randomNumbers;
-    private static final NotificationsClass nC=new NotificationsClass();
+//    private static final NotificationsClass nC=new NotificationsClass();
 
     public int startSendMail(String to) throws Exception {
         int result =-1;
@@ -55,7 +55,7 @@ public class emailSender {
             result =1;
         }
         catch(Exception e) {
-            nC.showNotificationSomethingWrong("failed to Send Email");
+//            nC.showNotificationSomethingWrong("failed to Send Email");
             throw new Exception("Please Try again later");
         }
         return result;

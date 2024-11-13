@@ -5,10 +5,17 @@ import org.controlsfx.control.Notifications;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javafx.stage.Stage;
 
 import java.util.Objects;
 
 public class NotificationsClass {
+private static NotificationsClass nC;
+    private final Stage ownerStage;
+
+    private NotificationsClass(Stage ownerStage) {
+        this.ownerStage = ownerStage;
+    }
 
     private void showNotification(String title, String message, String imagePath) {
         Platform.runLater(() -> {
@@ -16,11 +23,19 @@ public class NotificationsClass {
             Notifications notification = Notifications.create()
                     .title(title)
                     .text(message)
+                    .owner(ownerStage)
                     .darkStyle()
                     .hideAfter(Duration.seconds(5))
                     .graphic(new ImageView(image));
             notification.show();
         });
+    }
+    public static NotificationsClass getInstance(Stage ownerStage) {
+        if(nC==null){
+            System.out.println("nc is created");
+            nC = new NotificationsClass(ownerStage);
+        }
+        return nC;
     }
 
     public void showNotificationSomethingWrong(String message) {
