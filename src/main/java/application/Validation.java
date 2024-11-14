@@ -1,38 +1,34 @@
 package application;
 
-import java.io.*;
-import java.util.List;
-
 public class Validation {
     private static Validation vClass;
-    private static final checkingMethod cM=new checkingMethod();
-    private static accountController aC;
-    private static final DatabaseConnection dB=new DatabaseConnection();
+    private static final CheckingMethod cM= CheckingMethod.getInstance();
+    private static AccountController aC;
     private static enterEmailController eEC;
-    private static changePasswordController cPC;
-    private static EncryptionAndDecryptionPass eADP=new EncryptionAndDecryptionPass();
+    private static ChangePasswordController cPC;
+    private static ChangeUsernameController cUC;
     private final int port = 8080;
-    private static final String filePath = "D:/eclipse/IdeaProjects/E-commerce-shopping/src/main/resources/database.txt"; // Path of the file to write to
+//    private static final String filePath = "D:/eclipse/IdeaProjects/E-commerce-shopping/src/main/resources/database.txt"; // Path of the file to write to
     private final ClientConnection clientConnection = new ClientConnection("localhost", port);
     private static String response;
-    public Validation( accountController aC,changePasswordController cPC){
-        Validation.aC = aC;
+    public Validation(AccountController aC, enterEmailController eEC, ChangePasswordController cPC, ChangeUsernameController cUC){
+        if (aC!=null){
+            Validation.aC = aC;
+        }
+        if (cPC!=null){
         Validation.cPC = cPC;
-    }
-    public Validation(accountController aC){
-        Validation.aC=aC;
-    }
-    public Validation (enterEmailController eEC){
-        Validation.eEC=eEC;
-    }
-    public Validation( enterEmailController eEC,changePasswordController cPC){
-        Validation.eEC = eEC;
-        Validation.cPC = cPC;
+        }
+        if(eEC!=null){
+            Validation.eEC = eEC;
+        }
+        if (cUC!=null){
+            Validation.cUC=cUC;
+        }
     }
     public Validation(){}
-    public static Validation getInstance(){
+    public static Validation getInstance(AccountController aC, enterEmailController eEC, ChangePasswordController cPC, ChangeUsernameController cUC){
         if (vClass==null){
-            vClass=new Validation();
+            vClass=new Validation(aC,eEC,cPC,cUC);
         }
         return vClass;
     }
@@ -98,7 +94,7 @@ public class Validation {
         if (SUPassword.isEmpty()) {
             aC.showErrorForPasswordSignup("Empty!", "Password cannot be empty");
         } else {
-            checkingMethod cM = new checkingMethod();
+            CheckingMethod cM = new CheckingMethod();
             boolean strong = cM.checkPassToHaveDigit(SUPassword);
             if (SUPassword.length() >= 225) {
                 aC.showErrorForPasswordSignup("Too Long!!!", "Password is too long");
@@ -248,168 +244,205 @@ public class Validation {
         }
     }
     private void checkNewPasswordAndConfirmationPassword(String newPassword, String confirmationPassword, String user) throws Exception {
-
         if (!newPassword.equals(confirmationPassword)) {
             cPC.showPasswordErrorForConfirmation("Not Same!", "Please Enter Same Password");
         }
         if (aC != null) {
-            System.out.println("ac is not null");
-            String decryptedPassword = retrieveAndDecryptPassword(user);
-            if (decryptedPassword.equals(newPassword)) {
+            if (retrieveAndDecryptPassword(user)) {
                 cPC.showPasswordErrorForConfirmation("Same Old Password!", "Please Enter Different Password");
             }else {
-                String encryptedPassword = eADP.encrypt(newPassword);
-                updatePassword(user, encryptedPassword);
-                cPC.clearPasswordErrorStylesForConfirmation();
+                if(updatePassword(user,newPassword)){
+                    cPC.clearPasswordErrorStylesForConfirmation();
+                }else{
+                    cPC.showPasswordErrorForConfirmation("", "Please try again!");
+                }
             }
         }
         else {
-            cPC.clearPasswordErrorStylesForConfirmation();
-        }
-    }
-    private String retrieveAndDecryptPassword(String user) throws Exception {
-        if (cM.usernameOrEmail(user)) {
-            eADP = new EncryptionAndDecryptionPass(dB.getSecretKeyWithUsername(user));
-            return eADP.decrypt(dB.getPasswordThroughUsername(user));
-        } else {
-            eADP = new EncryptionAndDecryptionPass(dB.getSecretKeyWithEmail(user));
-            return eADP.decrypt(dB.getPasswordThroughEmail(user));
-        }
-    }
-    private void updatePassword(String user, String encryptedPassword){
-        if (cM.usernameOrEmail(user)) {
-            dB.setNewToOldPasswordWithUsername(user, encryptedPassword);
-        } else {
-            dB.setNewToOldPasswordWithEmail(user, encryptedPassword);
-        }
-    }
-
-
-    public boolean checkEmailInDatabase(String email)  {
-        //check email in file
-        String name = "";
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            String line;
-            List<String> list;
-            while ((line = reader.readLine()) != null) {
-                list = List.of(line.split(":"));
-                if (list.getFirst().equals("email")) {
-                    if (list.getLast().equals(email)) {
-                        name = list.getLast();
-                    } else {
-                        name = "";
-                    }
-                }
+            if(updatePassword(user,newPassword)){
+                cPC.clearPasswordErrorStylesForConfirmation();
+            }else{
+                cPC.showPasswordErrorForConfirmation("", "Please try again!");
             }
-            reader.close();
-        }catch(Exception e){
-            System.out.println("error ");
         }
-        return !name.isEmpty();
+    }
+    public void checkNewUsername(String newUsername,String oldUsername) throws Exception {
+        if (newUsername.isEmpty()) {
+            cUC.showUsernameError("Empty!", "Please Enter Username");
+        }
+        else if (newUsername.length() >= 128) {
+            cUC.showUsernameError("Too Long!!!", "Please Enter Short Username");
+        }
+        else if(newUsername.equals(oldUsername)){
+            cUC.showUsernameError("The Same old Username!", "Please Enter Different Username");
+        }
+        else{
+            if(updateUsername(newUsername, oldUsername)){
+                cUC.clearUsernameError();
+            }else{
+                cUC.showUsernameError("", "Please try again!");
+            }
+        }
+    }
+    private boolean updateUsername(String newUsername, String oldUsername) {
+        boolean result;
+        response = clientConnection.sendRequestWithTwoParameter("UPDATE_USERNAME", newUsername,oldUsername);
+        System.out.println(response);
+        result= cM.checkReturnedResponse(response);
+        return result;
+    }
+    private boolean updatePassword(String user, String encryptedPassword){
+        boolean result;
+        if (cM.usernameOrEmail(user)) {
+            response = clientConnection.sendRequestWithTwoParameter("UPDATE_PASSWORD_USERNAME", user,encryptedPassword);
+        } else {
+            response = clientConnection.sendRequestWithTwoParameter("UPDATE_PASSWORD_EMAIL", user,encryptedPassword);
+        }
+        System.out.println(response);
+        result= cM.checkReturnedResponse(response);
+        return result;
+    }
+    private boolean retrieveAndDecryptPassword(String user){
+        // Print the server's response to the console
+        if (cM.usernameOrEmail(user)) {
+            response = clientConnection.sendRequestWithOneParameter("CHECK_PASSWORD_USERNAME", user);
+        } else {
+            response = clientConnection.sendRequestWithOneParameter("CHECK_PASSWORD_EMAIL", user);
+        }
+        System.out.println(response);  // Print the server's response to the console
+        return cM.checkReturnedResponse(response);
+    }
+    public boolean checkEmailInDatabase(String email)  {
+//        //check email in file
+//        String name = "";
+//        try {
+//            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+//            String line;
+//            List<String> list;
+//            while ((line = reader.readLine()) != null) {
+//                list = List.of(line.split(":"));
+//                if (list.getFirst().equals("email")) {
+//                    if (list.getLast().equals(email)) {
+//                        name = list.getLast();
+//                    } else {
+//                        name = "";
+//                    }
+//                }
+//            }
+//            reader.close();
+//        }catch(Exception e){
+//            System.out.println("error ");
+//        }
+//        return !name.isEmpty();
 //
 //        //check email in database
-//        response = clientConnection.sendRequestWithOneParameter("CHECK_EMAIL", email);
-//        System.out.println(response);  // Print the server's response to the console
-//        return cM.checkReturnedResponse(response);
+        response = clientConnection.sendRequestWithOneParameter("CHECK_EMAIL", email);
+        System.out.println(response);  // Print the server's response to the console
+        return cM.checkReturnedResponse(response);
     }
     private boolean checkUsernameInDatabase(String username)  {
-//checking username in file:
-        String name = "";
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            String line;
-            List<String> list;
-            while ((line = reader.readLine()) != null) {
-                list = List.of(line.split(":"));
-                if (list.getFirst().equals("username")) {
-                    if (list.getLast().equals(username)) {
-                        name = list.getLast();
-                    } else {
-                        name = "";
-                    }
-                }
-            }
-            reader.close();
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        return !name.isEmpty();
+////checking username in file:
+//        String name = "";
+//        try {
+//            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+//            String line;
+//            List<String> list;
+//            while ((line = reader.readLine()) != null) {
+//                list = List.of(line.split(":"));
+//                if (list.getFirst().equals("username")) {
+//                    if (list.getLast().equals(username)) {
+//                        name = list.getLast();
+//                    } else {
+//                        name = "";
+//                    }
+//                }
+//            }
+//            reader.close();
+//        }
+//        catch (Exception e) {
+//            System.out.println(e);
+//        }
+//        return !name.isEmpty();
 
         //checking username in database:
-//        response = clientConnection.sendRequestWithOneParameter("CHECK_USERNAME", username);
-//        System.out.println(response);  // Print the server's response to the console
-//        return cM.checkReturnedResponse(response);
-
+        response = clientConnection.sendRequestWithOneParameter("CHECK_USERNAME", username);
+        System.out.println(response);  // Print the server's response to the console
+        return cM.checkReturnedResponse(response);
     }
-    private boolean checkPasswordInDatabaseWithUsername(String username, String password) throws IOException {
+    private boolean checkPasswordInDatabaseWithUsername(String username, String password){
 //        checking password in database
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        String line;
-        String pass = "";
-        List<String> list;
-        while ((line = reader.readLine()) != null) {
-            list= List.of(line.split(":"));
-            if(list.getFirst().equals("password")){
-                if(list.getLast().equals(password)){
-                    pass=list.getLast();
-                }
-                else{
-                    pass="";
-                }
-            }
-        }
-        reader.close();
-        return pass.isEmpty();
-//        response = clientConnection.sendRequestWithTwoParameter("CHECK_PASSWORD_USERNAME", username,password);
-//        System.out.println(response);  // Print the server's response to the console
-//        return cM.checkReturnedResponse(response);
+//        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+//        String line;
+//        String pass = "";
+//        List<String> list;
+//        while ((line = reader.readLine()) != null) {
+//            list= List.of(line.split(":"));
+//            if(list.getFirst().equals("password")){
+//                if(list.getLast().equals(password)){
+//                    pass=list.getLast();
+//                }
+//                else{
+//                    pass="";
+//                }
+//            }
+//        }
+//        reader.close();
+//        return pass.isEmpty();
+        response = clientConnection.sendRequestWithTwoParameter("CHECK_PASSWORD_USERNAME", username,password);
+        System.out.println(response);  // Print the server's response to the console
+        return cM.checkReturnedResponse(response);
     }
     private boolean checkPasswordInDatabaseWithEmail(String email,String password){
         response = clientConnection.sendRequestWithTwoParameter("CHECK_PASSWORD_EMAIL", email,password);
         System.out.println(response);  // Print the server's response to the console
         return cM.checkReturnedResponse(response);
     }
-
-
     private boolean checkQuestionFormatInDatabaseWithEmail(String email,int question){
-        return dB.checkingQuestionWithEmail(email,question);
+        response = clientConnection.sendRequestWithTwoParameter("CHECK_QUESTION_EMAIL", email,String.valueOf(question));
+        System.out.println(response);
+        return cM.checkReturnedResponse(response);
     }
     private boolean checkQuestionFormatInDatabaseWithUsername(String username,int question){
-        return dB.checkingQuestionWithUsername(username,question);
+        response = clientConnection.sendRequestWithTwoParameter("CHECK_QUESTION_USERNAME", username,String.valueOf(question));
+        System.out.println(response);
+        return cM.checkReturnedResponse(response);
     }
     private boolean checkAnswerFormatInDatabaseWithEmail(String email,String answer){
-        return dB.checkingAnswerWithEmail(email,answer);
+        response = clientConnection.sendRequestWithTwoParameter("CHECK_ANSWER_EMAIL", email,answer);
+        System.out.println(response);
+        return cM.checkReturnedResponse(response);
     }
     private boolean checkAnswerFormatInDatabaseWithUsername(String username,String answer){
-        return dB.checkingAnswerWithUsername(username,answer);
+        response = clientConnection.sendRequestWithTwoParameter("CHECK_ANSWER_USERNAME",username, answer);
+        System.out.println(response);
+        return cM.checkReturnedResponse(response);
     }
-
-
-    public boolean setAllInformationIndatabase(String username, String password, String email, int indexQuestoin, String answer) throws Exception {
-        boolean result;
-//        set user information in file:
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("username:" + username + "\n"+
-                    "password:" + password + "\n"+
-                    "email:" + email + "\n"+
-                    "indexQuestion:" + indexQuestoin + "\n"+
-                    "Answer:" + answer + "\n"
-                    );
-            result=true;
-//            nC.showNotificationUserAddSuccessfully();
-        } catch (IOException e) {
-                    result=false;
-//            nC.showNotificaitonSomethingWrong("Can not add user to database!");
-        }
-
-                return result;
+    public boolean setAllInformationDatabase(String username, String password, String email, int indexQuestoin, String answer){
+//        boolean result;
+////        set user information in file:
+//                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+//            writer.write("username:" + username + "\n"+
+//                    "password:" + password + "\n"+
+//                    "email:" + email + "\n"+
+//                    "indexQuestion:" + indexQuestoin + "\n"+
+//                    "Answer:" + answer + "\n"
+//                    );
+//            result=true;
+////            nC.showNotificationUserAddSuccessfully();
+//        } catch (IOException e) {
+//                    result=false;
+////            nC.showNotificaitonSomethingWrong("Can not add user to database!");
+//        }
+//
+//                return result;
         //set all information to database:
-//        String generatedKey=eADP.generateSecretKey();
-//        String encryptedPassword=eADP.encrypt(password);
-//        response = clientConnection.sendRequestToSetUserInformation("SET_USER_INFORMATION", username,encryptedPassword,email,indexQuestoin,answer,generatedKey);
-//        System.out.println(response);  // Print the server's response to the console
-//        return cM.checkReturnedResponse(response);
+        response = clientConnection.sendRequestToSetUserInformation("SET_USER_INFORMATION", username,password,email,indexQuestoin,answer);
+        System.out.println(response);  // Print the server's response to the console
+        return cM.checkReturnedResponse(response);
+    }
+    public boolean setNewEmailToOldEmail(String username, String email){
+        response = clientConnection.sendRequestWithTwoParameter("SET_NEW_WITH_OLD_EMAIL", username,email);
+        System.out.println(response);
+        return cM.checkReturnedResponse(response);
     }
 }

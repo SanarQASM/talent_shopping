@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.accountController">
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.AccountController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="600.0">
          <children>
@@ -415,7 +415,7 @@
                         <Font name="Rockwell" size="22.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="215.0" prefHeight="27.0" prefWidth="239.0" text="ST System Library" textAlignment="CENTER" textFill="#fefee3">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="215.0" prefHeight="27.0" prefWidth="239.0" text="Talent Shopping" textAlignment="CENTER" textFill="#fefee3">
                      <font>
                         <Font name="Rockwell Condensed" size="26.0" />
                      </font>

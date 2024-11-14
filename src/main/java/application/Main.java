@@ -84,13 +84,13 @@ public class Main extends Application {
             try {
                 Routes route = new Routes();
                 route.openStage(
-                        "/fxmlFile/account.fxml",
-                        "/fxmlFile/application.css",
-                        "/image/mainImage.png",
+                        References.ACCOUNT_FRAME.getImageReference(),
+                        References.CSS_STYLE.getImageReference(),
+                        References.MAIN_IMAGE.getImageReference(),
                         "Talent Shopping",
                         stage -> {
-                            accountController aC = (accountController) route.getController();
-                            new accountController(stage, aC);
+                            AccountController aC = (AccountController) route.getController();
+                            new AccountController(stage, aC);
                             stage.setResizable(false);
                             stage.setOnCloseRequest(event -> {
                                 event.consume();

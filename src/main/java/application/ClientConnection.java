@@ -17,7 +17,6 @@ public class ClientConnection {
             out = new ObjectOutputStream(socket.getOutputStream());//get
             in = new ObjectInputStream(socket.getInputStream());//send
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("failed to connect to server");
         }
     }
@@ -29,7 +28,6 @@ public class ClientConnection {
             out.flush();
             return (String) in.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("failed to send request in one parameters");
             return "Error in communication with server";
         }
@@ -56,7 +54,7 @@ public class ClientConnection {
         }
     }
 
-    public String sendRequestToSetUserInformation(String requestType, String username, String encryptedPassword, String email, int indexQuestoin, String answer, String generatedKey) {
+    public String sendRequestToSetUserInformation(String requestType, String username, String encryptedPassword, String email, int indexQuestoin, String answer) {
         try {
             out.writeObject(requestType);
             out.writeObject(username);
@@ -64,7 +62,6 @@ public class ClientConnection {
             out.writeObject(email);
             out.writeObject(indexQuestoin);
             out.writeObject(answer);
-            out.writeObject(generatedKey);
             out.flush();
             return (String) in.readObject();
         } catch (Exception e) {

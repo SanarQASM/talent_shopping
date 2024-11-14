@@ -10,16 +10,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="318.0" prefWidth="255.0" styleClass="bothForm" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.changeUsernameController">
+<AnchorPane prefHeight="318.0" prefWidth="255.0" styleClass="bothForm" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ChangeUsernameController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="25.0" prefHeight="26.0" prefWidth="165.0" style="-fx-border-color: #00b4d8;" styleClass="textLabel" stylesheets="@application.css" text="Change Username" textAlignment="CENTER" textFill="#00b4d8">
          <font>
             <Font name="Rockwell Condensed Bold" size="22.0" />
          </font>
       </Label>
-      <ImageView fitHeight="68.0" fitWidth="71.0" layoutX="87.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="changeUsernameImage" fitHeight="68.0" fitWidth="71.0" layoutX="87.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/username.png" />
+            <Image url="@../image/changeUsername.png" />
          </image>
       </ImageView>
       <TextField fx:id="changeUsername" focusTraversable="false" layoutX="28.0" layoutY="138.0" prefHeight="35.0" prefWidth="200.0" promptText="username" stylesheets="@application.css">

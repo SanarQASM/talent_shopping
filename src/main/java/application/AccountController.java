@@ -29,20 +29,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class accountController  implements Initializable {
+public class AccountController implements Initializable {
     private String messageTemp;//message to error
     private static Stage tempStage;//the account page stage
-    private static accountController aC;//leader controller
+    private static AccountController aC;//leader controller
     private static enterEmailController eEC;
     private static NotificationsClass nC;//
     private static final Preferences pref = Preferences.userRoot().node("Rememberme");
 //    private static final String filePath = "D:/eclipse/IdeaProjects/E-commerce-shopping/src/main/resources/database.txt"; // Path of the file to write to
-    private static final Validation vClass=Validation.getInstance();
+    private static Validation vClass;
     private static final Routes route=Routes.getInstance();
-    private static final String errorColor=String.valueOf(Colors.BORDER_ERROR_COLOR);
-    private static final String defaultColor= String.valueOf(Colors.BORDER_DEFAULT_COLOR);
-    private static final String cssStyle = String.valueOf(References.CSS_STYLE);
-
+    private static final String errorColor=Colors.BORDER_ERROR_COLOR.getColor();
+    private static final String defaultColor= Colors.BORDER_DEFAULT_COLOR.getColor();
+    private static final String cssStyle =References.CSS_STYLE.getImageReference();
 
     @FXML
     private ImageView registerIcon;
@@ -146,17 +145,20 @@ public class accountController  implements Initializable {
     @FXML
     private TextField su_username;
 
-    public accountController(){}
-    public accountController(Stage stage,accountController aC) {//from main to there
+    public AccountController(){}
+    public AccountController(Stage stage, AccountController aC) {//from main to there
         tempStage = stage;
-        accountController.aC = aC;
+        AccountController.aC = aC;
         nC=NotificationsClass.getInstance(stage);
+        vClass=Validation.getInstance(aC,null,null,null);
         tempStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 enterClick();
             }
         });
     }
+
+
     @FXML
     void showPassAction(MouseEvent ignoredEvent) {
         showingPassword(showPass, si_passwordPass, si_passwordText);
@@ -166,17 +168,17 @@ public class accountController  implements Initializable {
         showingPassword(showPass1, su_passwordPass, su_passwordText);
     }
     private void showingPassword(ImageView showPass, PasswordField siPasswordPass, TextField siPasswordText) {
-        if (showPass.getImage().getUrl().equals(Objects.requireNonNull(getClass().getResource(String.valueOf(References.HIDE_PASS_IMAGE))).toString())) {
+        if (showPass.getImage().getUrl().equals(Objects.requireNonNull(getClass().getResource(References.HIDE_PASS_IMAGE.getImageReference())).toString())) {
             siPasswordText.setVisible(true);
             siPasswordPass.setVisible(false);
             siPasswordText.setText(siPasswordPass.getText());
-            Image image = new Image(Objects.requireNonNull(getClass().getResource(String.valueOf(References.SHOW_PASS_IMAGE))).toString());
+            Image image = new Image(Objects.requireNonNull(getClass().getResource(References.SHOW_PASS_IMAGE.getImageReference())).toString());
             showPass.setImage(image);
         } else {
             siPasswordPass.setVisible(true);
             siPasswordText.setVisible(false);
             siPasswordPass.setText(siPasswordText.getText());
-            Image image = new Image(Objects.requireNonNull(getClass().getResource(String.valueOf(References.HIDE_PASS_IMAGE))).toString());
+            Image image = new Image(Objects.requireNonNull(getClass().getResource(References.HIDE_PASS_IMAGE.getImageReference())).toString());
             showPass.setImage(image);
         }
     }
@@ -269,7 +271,7 @@ public class accountController  implements Initializable {
     private void handleLoginFailure() {
         Platform.runLater(() -> {
             stackPane.setDisable(false);
-            updateLoginIcon(String.valueOf(References.LOGIN_IMAGE));
+            updateLoginIcon(References.LOGIN_IMAGE.getImageReference());
             nC.showNotificationSomethingWrong(messageTemp);
         });
     }
@@ -284,7 +286,7 @@ public class accountController  implements Initializable {
     }
     private void showLoadingStateForLogin() {
         Platform.runLater(() -> {
-            updateLoginIcon(String.valueOf(References.CHANGE_STATUS_GIF));
+            updateLoginIcon(References.CHANGE_STATUS_GIF.getImageReference());
             stackPane.setDisable(true);
         });
     }
@@ -321,7 +323,7 @@ public class accountController  implements Initializable {
     }
     private void handleSignUpSuccess() {
         Platform.runLater(() -> {
-            updateRegisterIcon(String.valueOf(References.REGISTER_IMAGE));
+            updateRegisterIcon(References.REGISTER_IMAGE.getImageReference());
             stackPane.setDisable(false);
             try {
                 openSuEmail();
@@ -332,14 +334,14 @@ public class accountController  implements Initializable {
     }
     private void handleSignUpFailure() {
         Platform.runLater(() -> {
-            updateRegisterIcon(String.valueOf(References.REGISTER_IMAGE));
+            updateRegisterIcon(References.REGISTER_IMAGE.getImageReference());
             stackPane.setDisable(false);
             nC.showNotificationFieldEmpty(messageTemp);
         });
     }
     private void showLoadingStateForSignup() {
         Platform.runLater(() -> {
-            updateRegisterIcon(String.valueOf(References.CHANGE_STATUS_GIF));
+            updateRegisterIcon(References.CHANGE_STATUS_GIF.getImageReference());
             stackPane.setDisable(true);
         });
     }
@@ -488,9 +490,9 @@ public class accountController  implements Initializable {
     //open user page
     private void openMainFrameUser() throws IOException {
         route.openStage(//go to home page
-                String.valueOf(References.MAIN_FRAME_USER),
+                References.MAIN_FRAME_USER.getImageReference(),
                 cssStyle,
-                String.valueOf(References.MAIN_IMAGE),
+                References.MAIN_IMAGE.getImageReference(),
                 "Talent Shopping",
                 primaryStage -> {
                     mainFrame_user controller = (mainFrame_user) route.getController();
@@ -503,7 +505,7 @@ public class accountController  implements Initializable {
                          Main.logout(primaryStage);
                     });
                     primaryStage.widthProperty().addListener((_,_,_) -> {
-                        new checkingMethod().toggleTabVisibility(primaryStage, controller);
+                        new CheckingMethod().toggleTabVisibility(primaryStage, controller);
                     });
                     stackPane.setDisable(false);
                     logInIcon.setImage(new Image(Objects.requireNonNull(getClass().getResource(String.valueOf(References.LOGIN_IMAGE))).toString()));
@@ -515,9 +517,9 @@ public class accountController  implements Initializable {
     //open email to register
     private void openSuEmail() throws IOException {
         route.openStage(//go to email page to signup with email
-                String.valueOf(References.EMAIL_FRAME),
+                References.EMAIL_FRAME.getImageReference(),
                 cssStyle,
-                String.valueOf(References.MAIN_EMAIL_IMAGE),
+                References.MAIN_EMAIL_IMAGE.getImageReference(),
                 "Enter Email",
                 stage -> {
                     eEC = (enterEmailController) route.getController();
@@ -537,19 +539,18 @@ public class accountController  implements Initializable {
     //open change password page to change password through email or username
     public void openChangePasswordController(String user) throws IOException {
         route.openStage(
-                String.valueOf(References.CHANGE_PASSWORD_FRAME),
+                References.CHANGE_PASSWORD_FRAME.getImageReference(),
                 cssStyle,
-                String.valueOf(References.RESET_PASSWORD_IMAGE),
+                References.RESET_PASSWORD_IMAGE.getImageReference(),
                 "Change Password",
                 stage -> {
-                    changePasswordController cPC= (changePasswordController) route.getController();
-                    new changePasswordController(stage, aC, user,cPC);
+                    ChangePasswordController cPC= (ChangePasswordController) route.getController();
+                    new ChangePasswordController(stage, aC, user,cPC);
                     tempStage.close();
                     stage.setResizable(false);
                     stage.setOnCloseRequest(ignoredEvent -> {
                         ignoredEvent.consume();
                         Main.logout(stage);
-                        aC=null;
                     });
                 }
         );
@@ -558,9 +559,9 @@ public class accountController  implements Initializable {
     @FXML
     void email_code(ActionEvent ignoredEvent) throws IOException {
         route.openStage(//open email and code page to change password through email
-                String.valueOf(References.EMAIL_FRAME),
+                References.EMAIL_FRAME.getImageReference(),
                 cssStyle,
-                String.valueOf(References.MAIN_EMAIL_IMAGE),
+                References.MAIN_EMAIL_IMAGE.getImageReference(),
                 "Change Password",
                 stage -> {
                      eEC= (enterEmailController) route.getController();
@@ -603,7 +604,7 @@ public class accountController  implements Initializable {
     }
     private void handleSuccess() {
         stackPane.setDisable(false);
-        updateForgetIcon(String.valueOf(References.RESET_PASSWORD_IMAGE));
+        updateForgetIcon(References.RESET_PASSWORD_IMAGE.getImageReference());
         try {
             openChangePasswordController(forgetUsername.getText());
         } catch (IOException e) {
@@ -612,14 +613,14 @@ public class accountController  implements Initializable {
     }
     private void handleFailure() {
         Platform.runLater(() -> {
-            updateForgetIcon(String.valueOf(References.FORGET_PASSWORD_IMAGE));
+            updateForgetIcon(References.FORGET_PASSWORD_IMAGE.getImageReference());
             stackPane.setDisable(false);
             nC.showNotificationFieldEmpty(messageTemp);
         });
     }
     private void showLoadingState() {
         Platform.runLater(() -> {
-            updateForgetIcon(String.valueOf(References.CHANGE_STATUS_GIF));
+            updateForgetIcon(References.CHANGE_STATUS_GIF.getImageReference());
             stackPane.setDisable(true);
         });
     }
@@ -718,8 +719,13 @@ public class accountController  implements Initializable {
     public void showStage() {
         tempStage.show();
     }
-    public void registerDone() throws Exception{
-        if(vClass.setAllInformationIndatabase(su_username.getText(),su_passwordPass.getText(),eEC.getEmail(), findIndexQuestionForSignup(), su_answer.getText())){
+    public static void showStageInLogout() {
+        Platform.runLater(() -> {
+            tempStage.show();
+        });
+    }
+    public void registerDone(){
+        if(vClass.setAllInformationDatabase(su_username.getText(),su_passwordPass.getText(),eEC.getEmail(), findIndexQuestionForSignup(), su_answer.getText())){
             transAction();
             su_username.setText("");
             su_passwordPass.setText("");
@@ -753,4 +759,5 @@ public class accountController  implements Initializable {
         }
 
     }
+
 }

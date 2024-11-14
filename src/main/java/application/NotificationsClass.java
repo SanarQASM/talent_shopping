@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class NotificationsClass {
-private static NotificationsClass nC;
+    private static NotificationsClass nC;
     private final Stage ownerStage;
 
     private NotificationsClass(Stage ownerStage) {
@@ -32,77 +32,76 @@ private static NotificationsClass nC;
     }
     public static NotificationsClass getInstance(Stage ownerStage) {
         if(nC==null){
-            System.out.println("nc is created");
             nC = new NotificationsClass(ownerStage);
         }
         return nC;
     }
 
     public void showNotificationSomethingWrong(String message) {
-        showNotification("Opps, try again!", message, "/image/somethingWrong.png");
+        showNotification("Opps, try again!", message,References.SOMETHING_WRONG_IMAGE.getImageReference());
     }
 
     public void showNotificationNoInternet() {
-        showNotification("No internet Access", "Please check internet before trying", "/image/no-wifi.png");
+        showNotification("No internet Access", "Please check internet before trying", References.NO_WIFI_IMAGE.getImageReference());
     }
 
     public void showNotificationCheckYourEmail() {
-        showNotification("Email Sent Successfully", "Check your email", "/image/EmailSentSuccessfully.png");
+        showNotification("Email Sent Successfully", "Check your email",References.EMAIL_SUCCESSFULLY_SEND.getImageReference());
     }
 
     public void showNotificationTooManyTry() {
-        showNotification("Too many tries", "Try again later", "/image/tooManyTry.png");
+        showNotification("Too many tries", "Try again later", References.TOO_MANY_TRY.getImageReference());
     }
 
     public void showNotificationSuccessChangeEmail() {
-        showNotification("Email Changed Successfully", "You can use your new email!", "/image/forgetEmail.png");
+        showNotification("Email Changed Successfully", "You can use your new email!", References.FORGET_EMAIL_IMAGE.getImageReference());
     }
 
     public void showNotificationPasswordChangeSuccessfully() {
-        showNotification("Password Changed Successfully", "You can use the new password now", "/image/passwordChange.png");
+        showNotification("Password Changed Successfully", "You can use the new password now", References.CHANGE_PASSWORD_IMAGE.getImageReference());
     }
 
     public void showNotificationNewEmailSetSuccessfully() {
-        showNotification("Email Changed Successfully", "You can use the new email now", "/image/changeEmail.png");
+        showNotification("Email Changed Successfully", "You can use the new email now", References.CHANGE_EMAIL_IMAGE.getImageReference());
     }
 
     public void showNotificationNewUsernameSetSuccessfully() {
-        showNotification("Username Changed Successfully", "You can use the new username now", "/image/changeUsername.png");
+        showNotification("Username Changed Successfully", "You can use the new username now", References.CHANGE_USERNAME_IMAGE.getImageReference());
     }
 
     public void showNotificationSendToReview() {
-        showNotification("Book Added Successfully", "Please wait for review. We will display it in 'Additional Books' after review", "/image/review.png");
+        showNotification("Book Added Successfully", "Please wait for review. We will display it in 'Additional Books' after review",References.REGISTER_IMAGE.getImageReference());
     }
 
     public void showNotificationFieldEmpty(String message) {
-        showNotification("The Information is Incorrect", message, "/image/error.png");
+        showNotification("The Information is Incorrect", message, References.EMPTY_IMAGE.getImageReference());
     }
 
     public void showNotificationInvalidType() {
-        showNotification("File Type Not Allowed", "Please verify the file type and try again", "/image/invalid.png");
+        showNotification("File Type Not Allowed", "Please verify the file type and try again", References.INVALID_IMAGE.getImageReference());
     }
 
     public void showNotificationEnterCorrectInformation() {
-        showNotification("Wrong Information", "Please check the information", "/image/incorrect.png");
+        showNotification("Wrong Information", "Please check the information",References.INCORRECT_IMAGE.getImageReference());
     }
 
     public void showNotificationEnterEmail() {
-        showNotification("Email Address", "Add your email address", "/image/emailMain.png");
+        showNotification("Email Address", "Add your email address", References.MAIN_EMAIL_IMAGE.getImageReference());
     }
 
     public void showNotificationEnterNewPassword() {
-        showNotification("Password", "Add a new and different password", "/image/passwordChange.png");
+        showNotification("Password", "Add a new and different password", References.CHANGE_PASSWORD_IMAGE.getImageReference());
     }
 
     public void showNotificationEnterNewUsername() {
-        showNotification("Username", "Add a new and different username", "/image/changeUsername.png");
+        showNotification("Username", "Add a new and different username", References.CHANGE_USERNAME_IMAGE.getImageReference());
     }
 
     public void showNotificationPleaseWait() {
-        showNotification("Please Wait", "It may take some time", "/image/review.png");
+        showNotification("Please Wait", "It may take some time", References.REGISTER_IMAGE.getImageReference());
     }
 
     public void showNotificationSuccessfullyCreateAccount() {
-        showNotification("Account Created Successfully", "Now you can log in", "/image/account_created_successfully.png");
+        showNotification("Account Created Successfully", "Now you can log in",References.ACCOUNT_CREATE_SUCCESSFULLY.getImageReference());
     }
 }

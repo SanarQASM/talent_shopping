@@ -1,12 +1,7 @@
 package application;
 
-//import java.io.File;
-//import java.net.URI;
 import java.util.Properties;
 import java.util.Random;
-//import jakarta.activation.DataHandler;
-//import jakarta.activation.DataSource;
-//import jakarta.activation.FileDataSource;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -14,13 +9,10 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
-//import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
-//import jakarta.mail.internet.MimeMultipart;
 
 public class emailSender {
     public static String randomNumbers;
-//    private static final NotificationsClass nC=new NotificationsClass();
 
     public int startSendMail(String to) throws Exception {
         int result =-1;

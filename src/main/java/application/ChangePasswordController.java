@@ -10,10 +10,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class changePasswordController{
+public class ChangePasswordController {
 
     @FXML
     private TextField confirmationPassText;
@@ -38,59 +40,80 @@ public class changePasswordController{
 
     @FXML
     private ImageView changePassowrdImage;
+
+
     private static enterEmailController eEC;
     private static String user;
     private static String messageTemp;
     private static Stage tempStage;
-    private static accountController aC;
-//    private static final NotificationsClass nC=NotificationsClass.getInstance();
-    private static final checkingMethod cM = new checkingMethod();
+    private static AccountController aC;
     private static Validation validate;
-    private static changePasswordController cPC;
-    private static final DatabaseConnection dB=new DatabaseConnection();
+    private static NotificationsClass nC;
+    private static SettingController sC;
+    private static ChangePasswordController cPC;
+    private static final String errorColor=Colors.BORDER_ERROR_COLOR.getColor();
+    private static final String defaultColor= Colors.BORDER_DEFAULT_COLOR.getColor();
 
-    public changePasswordController(){}
-    public changePasswordController(Stage tempStage, accountController aC,String user,changePasswordController cPC) {//from forget password in login page
-        changePasswordController.tempStage = tempStage;
-        changePasswordController.aC = aC;
-        changePasswordController.user=user;
-        changePasswordController.cPC=cPC;
-        changePasswordController.validate=new Validation(aC,cPC);
+    public ChangePasswordController(){}
+    public ChangePasswordController(Stage tempStage, AccountController aC, String user, ChangePasswordController cPC) {//from forget password in login page
+        ChangePasswordController.tempStage = tempStage;
+        ChangePasswordController.aC = aC;
+        ChangePasswordController.user=user;
+        ChangePasswordController.cPC=cPC;
+        ChangePasswordController.validate=Validation.getInstance(aC,null,cPC,null);
+        nC=NotificationsClass.getInstance(tempStage);
+        setEnterKeyword();
     }
-    public changePasswordController(Stage tempStage,enterEmailController eEC, String user,changePasswordController cPC) {
-        changePasswordController.tempStage = tempStage;
-        changePasswordController.eEC = eEC;
-        changePasswordController.user=user;
-        changePasswordController.cPC=cPC;
-        changePasswordController.validate=new Validation(eEC,cPC);
+    public ChangePasswordController(Stage tempStage, enterEmailController eEC, String user, ChangePasswordController cPC) {
+        ChangePasswordController.tempStage = tempStage;
+        ChangePasswordController.eEC = eEC;
+        ChangePasswordController.user=user;
+        ChangePasswordController.cPC=cPC;
+        ChangePasswordController.validate=Validation.getInstance(null,eEC,cPC,null);
+        nC=NotificationsClass.getInstance(tempStage);
+        setEnterKeyword();
+    }
+    public ChangePasswordController(Stage tempStage, ChangePasswordController cPC,SettingController sC, String user) {
+        ChangePasswordController.tempStage = tempStage;
+        ChangePasswordController.user=user;
+        ChangePasswordController.sC=sC;
+        ChangePasswordController.cPC=cPC;
+        ChangePasswordController.validate=Validation.getInstance(null,null,cPC,null);
+        nC=NotificationsClass.getInstance(tempStage);
+        setEnterKeyword();
     }
 
     @FXML
-    void backFromChangePassword(ActionEvent event) {
+    void backFromChangePassword(ActionEvent ignoredEvent) {
         tempStage.close();
         if (eEC!=null){//back to email page
-            eEC.showStage();
+            returnToEmailPage();
             System.out.println("back because eEC!= null");
         }
         else if(aC!=null) {//back to change login form
             aC.showStage();
             aC.setAllFormVisibilityToBack();
             System.out.println("back because aC!= null");
+            aC=null;
         }
-
         else {//back to setting
-//            sC.showStage();
+            returnToSettingPage();
+            System.out.println("back because aC!= null");
         }
     }
 
     //process to change password
     @FXML
-    void changePassword(ActionEvent event) {
+    void changePassword(ActionEvent ignoredEvent) {
+        startChangePassword();
+    }
+    private void startChangePassword() {
         Task<Void> changePasswordTask = createChangePasswordTask();
         changePasswordTask.setOnSucceeded(_ -> onTaskSuccess());
         changePasswordTask.setOnFailed(_ -> onTaskFailure());
         new Thread(changePasswordTask).start();
-        setChangePasswordImage("/image/changeToLoading.gif");
+        setChangePasswordImage(References.CHANGE_STATUS_GIF.getImageReference());
+
     }
     private Task<Void> createChangePasswordTask() {
         return new Task<>() {
@@ -103,42 +126,42 @@ public class changePasswordController{
     }
     private void onTaskSuccess() {
         Platform.runLater(() -> {
-            setChangePasswordImage("/image/reset-password.png");
-            closeTemporaryStage();
+            setChangePasswordImage(References.RESET_PASSWORD_IMAGE.getImageReference());
             tempStage.close();
             if (eEC != null) {//return to email page
-                returnToLoginPage();
+                returnToEmailPage();
             }
             else if (aC != null) {
                 returnToLoginPage();//return to login page
             }  else {
-                // back to setting page
+                returnToSettingPage();
             }
         });
     }
     private void onTaskFailure() {
         Platform.runLater(() -> {
-            setChangePasswordImage("/image/reset-password.png");
-//            nC.showNotificationSomethingWrong(messageTemp);
+            setChangePasswordImage(References.RESET_PASSWORD_IMAGE.getImageReference());
+            nC.showNotificationSomethingWrong(messageTemp);
         });
     }
     private void setChangePasswordImage(String imagePath) {
         Image image = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toString());
         changePassowrdImage.setImage(image);
     }
-    private void closeTemporaryStage() {
-        if (tempStage != null) {
-            tempStage.close();
-        }
-    }
     private void returnToLoginPage() {
         aC.showStage();
-//        nC.showNotificationPasswordChangeSuccessfully();
+        nC.showNotificationPasswordChangeSuccessfully();
         aC.setAllFormVisibility();
         aC = null;  // Release the controller reference after use
     }
-
-
+    private void returnToEmailPage() {
+        eEC.showStage();
+        eEC=null;
+    }
+    private void returnToSettingPage(){
+        sC.showStage();
+        sC=null;
+    }
     private String getNewPassword(){
         if(newPasswordPass.isVisible()){
             newPasswordPass.setText(newPasswordPass.getText().trim());
@@ -160,12 +183,11 @@ public class changePasswordController{
         }
     }
 
-
     public void showPasswordErrorForNew(String errorText, String message) throws Exception {
         Platform.runLater(() -> {
             newPasswordError.setText(errorText);
-            newPasswordPass.setStyle("-fx-border-color: red;");
-            newPasswordText.setStyle("-fx-border-color: red;");
+            newPasswordPass.setStyle(errorColor);
+            newPasswordText.setStyle(errorColor);
         });
         messageTemp = message;
         throw new Exception(messageTemp);
@@ -173,16 +195,16 @@ public class changePasswordController{
     public void clearPasswordErrorStylesForNew() {
         Platform.runLater(() -> {
             newPasswordError.setText("");
-            newPasswordPass.setStyle("-fx-border-color: #0077b6;");
-            newPasswordText.setStyle("-fx-border-color: #0077b6;");
+            newPasswordPass.setStyle(defaultColor);
+            newPasswordText.setStyle(defaultColor);
             messageTemp="";
         });
     }
     public void showPasswordErrorForConfirmation(String errorText, String message) throws Exception {
         Platform.runLater(() -> {
             confirmationPasswordError.setText(errorText);
-            confirmationPasswordPass.setStyle("-fx-border-color: red;");
-            confirmationPassText.setStyle("-fx-border-color: red;");
+            confirmationPasswordPass.setStyle(errorColor);
+            confirmationPassText.setStyle(errorColor);
         });
         messageTemp = message;
         throw new Exception(messageTemp);
@@ -190,23 +212,22 @@ public class changePasswordController{
     public void clearPasswordErrorStylesForConfirmation() {
         Platform.runLater(() -> {
             confirmationPasswordError.setText("");
-            confirmationPasswordPass.setStyle("-fx-border-color: #0077b6;");
-            confirmationPassText.setStyle("-fx-border-color: #0077b6;");
+            confirmationPasswordPass.setStyle(defaultColor);
+            confirmationPassText.setStyle(defaultColor);
             messageTemp="";
         });
     }
 
-
     @FXML
-    void newShowPass(MouseEvent event) {
-        if (showPasswordInChange.getImage().getUrl().equals(getClass().getResource("/image/hidePass.png").toString())) {
+    void newShowPass(MouseEvent ignoredEvent) {
+        if (showPasswordInChange.getImage().getUrl().equals(Objects.requireNonNull(getClass().getResource(References.HIDE_PASS_IMAGE.getImageReference())).toString())) {
             newPasswordPass.setVisible(false);
             newPasswordText.setVisible(true);
             confirmationPasswordPass.setVisible(false);
             confirmationPassText.setVisible(true);
             newPasswordText.setText(newPasswordPass.getText());
             confirmationPassText.setText(confirmationPasswordPass.getText());
-            Image image = new Image(Objects.requireNonNull(getClass().getResource("/image/showPass.png")).toString());
+            Image image = new Image(Objects.requireNonNull(getClass().getResource(References.SHOW_PASS_IMAGE.getImageReference())).toString());
             showPasswordInChange.setImage(image);
         } else {
             newPasswordPass.setVisible(true);
@@ -215,9 +236,15 @@ public class changePasswordController{
             confirmationPassText.setVisible(false);
             confirmationPasswordPass.setText(confirmationPassText.getText());
             newPasswordPass.setText(newPasswordText.getText());
-            Image image = new Image(Objects.requireNonNull(getClass().getResource("/image/hidePass.png")).toString());
+            Image image = new Image(Objects.requireNonNull(getClass().getResource(References.HIDE_PASS_IMAGE.getImageReference())).toString());
             showPasswordInChange.setImage(image);
         }
     }
-
+    private void setEnterKeyword(){
+        tempStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                startChangePassword();
+            }
+        });
+    }
 }

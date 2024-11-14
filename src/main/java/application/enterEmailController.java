@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -20,18 +22,21 @@ import javafx.util.Duration;
 public class enterEmailController {
 
     private static Stage tempStage;
-    private static accountController aC;
+    private static AccountController aC;
     private static enterEmailController eEC;
-    private static final NotificationsClass nC= NotificationsClass.getInstance(tempStage);
-    private static settingController sC;
-    private static final Routes route=new Routes();
-    private static final checkingMethod cM=new checkingMethod();
+    private static NotificationsClass nC;
+    private static SettingController sC;
+    private static final Routes route=Routes.getInstance();
     private static Validation validate;
     private static String username;
     private int remainingSeconds = 60;
     private static int countResend = 1;
     private static String messageTemp;
     private static boolean forgetPage;
+    private static final String errorColor=String.valueOf(Colors.BORDER_ERROR_COLOR);
+    private static final String defaultColor= String.valueOf(Colors.BORDER_DEFAULT_COLOR);
+    private static final String cssStyle = String.valueOf(References.CSS_STYLE);
+
     @FXML
     private TextField code;
 
@@ -59,24 +64,29 @@ public class enterEmailController {
     @FXML
     private Label time;
 
-
-    public enterEmailController(accountController aC,boolean forgetPage,Stage stage,enterEmailController eEC){//open from signup or change password
+    public enterEmailController(AccountController aC, boolean forgetPage, Stage stage, enterEmailController eEC){//open from signup or change password
         enterEmailController.aC = aC;
         enterEmailController.forgetPage = forgetPage;//if true then it is in forget password through email else it is to register(signup)
         tempStage = stage;
         enterEmailController.eEC = eEC;
+        nC = NotificationsClass.getInstance(tempStage);
+        setEnterKeyword();
+        validate = Validation.getInstance(aC,eEC,null,null);
     }
     public enterEmailController(){}
-    public enterEmailController(enterEmailController eEC, Stage stage,settingController sC,String username) {//open from setting
+    public enterEmailController(enterEmailController eEC, Stage stage, SettingController sC, String username) {//open from setting
         tempStage=stage;
         enterEmailController.eEC=eEC;
         enterEmailController.sC=sC;
         enterEmailController.username=username;
+        nC= NotificationsClass.getInstance(tempStage);
+        setEnterKeyword();
+        validate = Validation.getInstance(null,eEC,null,null);
     }
 
     //back to recent page
     @FXML
-    void back(ActionEvent event) {
+    void back(ActionEvent ignoredEvent) {
         tempStage.close();
         if(aC!=null){
             if(forgetPage) {//back to login page
@@ -90,13 +100,16 @@ public class enterEmailController {
         }
         else{
             sC.showStage();
+            sC=null;
         }
     }
 
-
     //code verification according to user task
     @FXML
-    void process(ActionEvent event) {
+    void process(ActionEvent ignoredEvent) {
+        startProcess();
+    }
+    private void startProcess() {
         Task<Void> validationTask = createValidationTask();
         setTaskHandlers(validationTask);
         startTask(validationTask);
@@ -123,7 +136,7 @@ public class enterEmailController {
     public void clearErrorForCode()  {
         Platform.runLater(() -> {
             codeError.setText("");
-            code.setStyle("-fx-border-color: #0077b6");
+            code.setStyle(defaultColor);
             messageTemp = "";
         });
     }
@@ -138,28 +151,30 @@ public class enterEmailController {
         }));
     }
     private void startTask(Task<Void> task) {
+        Image image = new Image(Objects.requireNonNull(getClass().getResource(References.CHANGE_STATUS_GIF.getImageReference())).toString());
+        emailCodeIcon.setImage(image);
         new Thread(task).start();
     }
     private void updateUIForProcessing() {
-        Image loadingImage = new Image(Objects.requireNonNull(getClass().getResource("/image/changeToLoading.gif")).toString());
+        Image loadingImage = new Image(Objects.requireNonNull(getClass().getResource(String.valueOf(References.CHANGE_STATUS_GIF))).toString());
         emailCodeIcon.setImage(loadingImage);
         emailCodeFrame.setDisable(true);
     }
     private void updateUIOnError() {
-        Image errorImage = new Image(Objects.requireNonNull(getClass().getResource("/image/forgetEmail.png")).toString());
+        Image errorImage = new Image(Objects.requireNonNull(getClass().getResource(References.FORGET_EMAIL_IMAGE.getImageReference())).toString());
         emailCodeIcon.setImage(errorImage);
         emailCodeFrame.setDisable(false);
     }
     private void updateUIOnSuccess() {
-        Image successImage = new Image(Objects.requireNonNull(getClass().getResource("/image/forgetEmail.png")).toString());
+        Image successImage = new Image(Objects.requireNonNull(getClass().getResource(References.FORGET_EMAIL_IMAGE.getImageReference())).toString());
         emailCodeIcon.setImage(successImage);
         emailCodeFrame.setDisable(false);
     }
     private void handleSuccessfulValidation() {
-        tempStage.close();
         try {
             if (aC != null) {
                 if (forgetPage) {
+                    tempStage.close();
                     openChangePassword(email.getText());
                 } else {
                     navigateToSignup();
@@ -172,32 +187,35 @@ public class enterEmailController {
         }
     }
     private void navigateToSignup() throws Exception {
+        tempStage.close();
         aC.showStage();
         aC.registerDone();
         aC = null;
     }
     private void navigateToSettings() {
-        DatabaseConnection dB = new DatabaseConnection();
-        dB.setNewEmailToOldEmail(username, email.getText());
-        sC.showStage();
-        nC.showNotificationSuccessChangeEmail();
+        if(validate.setNewEmailToOldEmail(username, email.getText())){
+            sC.showStage();
+            nC.showNotificationNewEmailSetSuccessfully();
+            tempStage.close();
+        }else{
+            nC.showNotificationSomethingWrong("Can not Set New Email");
+        }
     }
     private void openChangePassword(String user) throws IOException {//open change password page
         route.openStage(
-                "/fxmlFile/changePassword.fxml",
-                "/fxmlFile/application.css",
-                "/image/reset-password.png",
+                String.valueOf(References.CHANGE_PASSWORD_FRAME),
+                cssStyle,
+                String.valueOf(References.RESET_PASSWORD_IMAGE),
                 "Change Password",
                 stage -> {
-                    changePasswordController cPC= (changePasswordController) route.getController();
-                    new changePasswordController(stage, eEC, user,cPC);
+                    ChangePasswordController cPC= (ChangePasswordController) route.getController();
+                    new ChangePasswordController(stage, eEC, user,cPC);
                     tempStage.close();
                     stage.setResizable(false);
                     stage.setOnCloseRequest(event -> {
                         event.consume();
                         tempStage.show();
                         stage.show();
-                        eEC = null;
                     });
                 }
         );
@@ -205,11 +223,10 @@ public class enterEmailController {
 
     //send code for user email
     @FXML
-    void sendCode(ActionEvent event) {
+    void sendCode(ActionEvent ignoredEvent) {
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                validate =new Validation(eEC);
                 processSendCode();
                 return null;
             }
@@ -227,21 +244,21 @@ public class enterEmailController {
     }
     private void handleSendCodeSuccess() {
         Platform.runLater(() -> {
-            updateEmailCodeIcon("/image/forgetEmail.png");
+            updateEmailCodeIcon(String.valueOf(References.FORGET_EMAIL_IMAGE));
             emailCodeFrame.setDisable(false);
            nC.showNotificationCheckYourEmail();
         });
     }
     private void handleSendCodeFailure() {
         Platform.runLater(() -> {
-            updateEmailCodeIcon("/image/forgetEmail.png");
+            updateEmailCodeIcon(String.valueOf(References.FORGET_EMAIL_IMAGE));
             emailCodeFrame.setDisable(false);
             nC.showNotificationSomethingWrong(messageTemp);
         });
     }
     private void showSendCodeLoadingState() {
         Platform.runLater(() -> {
-            updateEmailCodeIcon("/image/changeToLoading.gif");
+            updateEmailCodeIcon(String.valueOf(References.CHANGE_STATUS_GIF));
             emailCodeFrame.setDisable(true);
         });
     }
@@ -250,14 +267,13 @@ public class enterEmailController {
         emailCodeIcon.setImage(image);
     }
 
-
     //checking email as input and in database
-    private void checkEmailToHave(String Gemail) throws Exception {
-        validate.checkEmailInEnterEmailController(Gemail);
+    private void checkEmailToHave(String Gmail) throws Exception {
+        validate.checkEmailInEnterEmailController(Gmail);
         if (aC != null) {
-            handleAccountControllerCase(Gemail);
+            handleAccountControllerCase(Gmail);
         } else {
-            handleSettingsCase(Gemail);
+            handleSettingsCase(Gmail);
         }
     }
     private void handleAccountControllerCase(String emailText) throws Exception {
@@ -289,7 +305,7 @@ public class enterEmailController {
         Platform.runLater(() -> {
             System.out.println("it is set email error ");
             emailError.setText(errorMessage);
-            email.setStyle("-fx-border-color: red;");
+            email.setStyle(errorColor);
             messageTemp = tempMessage;
         });
         throw new Exception(messageTemp);
@@ -297,7 +313,7 @@ public class enterEmailController {
     public void setEmailSuccess() {
         Platform.runLater(() -> {
             emailError.setText("");
-            email.setStyle("-fx-border-color: #0077b6;");
+            email.setStyle(defaultColor);
             messageTemp = "";
         });
     }
@@ -316,7 +332,7 @@ public class enterEmailController {
     private void resetEmailUI() {
         Platform.runLater(() -> {
             emailError.setText("");
-            email.setStyle("-fx-border-color: #0077b6;");
+            email.setStyle(defaultColor);
         });
     }
     private void handleNoInternetError() throws Exception {
@@ -344,7 +360,7 @@ public class enterEmailController {
             remainingSeconds=60;
             final Timeline timeline = new Timeline();
             time.setText("01:00");
-            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event1 -> {
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), _ -> {
                 remainingSeconds--;
                 int minutes = remainingSeconds / 60;
                 int seconds = remainingSeconds % 60;
@@ -362,7 +378,6 @@ public class enterEmailController {
         }
     }
 
-
     //other method
     public String getEmail(){
         return email.getText();
@@ -370,5 +385,13 @@ public class enterEmailController {
     public void showStage() {
         tempStage.show();
     }
-
+    private void setEnterKeyword(){
+        tempStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if(eEC.processButtonToSendCode.isVisible()){
+                    startProcess();
+                }
+            }
+        });
+    }
 }

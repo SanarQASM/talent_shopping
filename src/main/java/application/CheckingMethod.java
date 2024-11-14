@@ -2,10 +2,8 @@ package application;
 
 import javafx.stage.Stage;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
-public class checkingMethod {
+public class CheckingMethod {
+    private static CheckingMethod cMethod;
     public boolean checkPassToHaveDigit(String username) {
         int countDigit = 0;
         int countLetter = 0;
@@ -44,10 +42,14 @@ public class checkingMethod {
     public boolean usernameOrEmail(String email) {
         return (!email.endsWith("@gmail.com"));
     }
-    public Timestamp getCurrentDateTime() {
-        return Timestamp.valueOf(LocalDateTime.now());
-    }
     public boolean checkReturnedResponse(String response) {
         return response.startsWith("1");
     }
+    public static CheckingMethod getInstance(){
+        if (cMethod==null){
+            cMethod=new CheckingMethod();
+        }
+        return cMethod;
+    }
+
 }

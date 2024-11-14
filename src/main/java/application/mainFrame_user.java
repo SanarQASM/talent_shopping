@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -19,9 +18,7 @@ import java.util.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class mainFrame_user implements Initializable {
     private List<VBox> categoryVBoxes;
@@ -199,6 +196,7 @@ public class mainFrame_user implements Initializable {
     }
 
     public mainFrame_user(){}
+
     @FXML
     void openSetting(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlFile/settingController.fxml"));
@@ -210,8 +208,8 @@ public class mainFrame_user implements Initializable {
         primaryStage.setScene(scene);
         Image image = new Image(Objects.requireNonNull(getClass().getResource("/image/setting.png")).toString());
         primaryStage.getIcons().add(image);
-        settingController sC=loader.getController();
-        new settingController(sC,mF,primaryStage);
+        SettingController sC=loader.getController();
+        new SettingController(sC,mF,primaryStage);
         primaryStage.setResizable(false);
         primaryStage.show();
         tempStage.close();
@@ -400,5 +398,8 @@ public class mainFrame_user implements Initializable {
     }
     public String getUsername(){
         return username;
+    }
+    public static void setNewUsername(String username) {
+        mF.usernameLabel.setText(username);
     }
 }
