@@ -146,10 +146,11 @@ public class AccountController implements Initializable {
     private TextField su_username;
 
     public AccountController(){}
-    public AccountController(Stage stage, AccountController aC) {//from main to there
+
+    public AccountController(Stage stage, AccountController aC,NotificationsClass nC) {//from main to there
         tempStage = stage;
-        AccountController.aC = aC;
-        nC=NotificationsClass.getInstance(stage);
+        AccountController.aC=aC;
+        AccountController.nC=nC;
         vClass=Validation.getInstance(aC,null,null,null);
         tempStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -157,7 +158,6 @@ public class AccountController implements Initializable {
             }
         });
     }
-
 
     @FXML
     void showPassAction(MouseEvent ignoredEvent) {
@@ -361,7 +361,7 @@ public class AccountController implements Initializable {
     }
     public void clearErrorForUsernameLogin() {
         Platform.runLater(() -> {
-            si_errorUserName.setText(defaultColor);
+            si_errorUserName.setText("");
             si_username.setStyle(defaultColor);
         });
     }
@@ -497,18 +497,16 @@ public class AccountController implements Initializable {
                 primaryStage -> {
                     mainFrame_user controller = (mainFrame_user) route.getController();
                     new mainFrame_user(controller, primaryStage, si_username.getText());
-                    primaryStage.setMinWidth(600);
-                    primaryStage.setMinHeight(400);
+                    primaryStage.setMinWidth(700);
+                    primaryStage.setMinHeight(500);
                     primaryStage.setResizable(true);
                     primaryStage.setOnCloseRequest(ignoredEvent -> {
                         ignoredEvent.consume();
                          Main.logout(primaryStage);
                     });
-                    primaryStage.widthProperty().addListener((_,_,_) -> {
-                        new CheckingMethod().toggleTabVisibility(primaryStage, controller);
-                    });
+                    primaryStage.widthProperty().addListener((_,_,_) -> new CheckingMethod().toggleTabVisibility(primaryStage, controller));
                     stackPane.setDisable(false);
-                    logInIcon.setImage(new Image(Objects.requireNonNull(getClass().getResource(String.valueOf(References.LOGIN_IMAGE))).toString()));
+                    logInIcon.setImage(new Image(References.LOGIN_IMAGE.getImageReference()));
                     tempStage.close();
                 }
         );
@@ -523,7 +521,7 @@ public class AccountController implements Initializable {
                 "Enter Email",
                 stage -> {
                     eEC = (enterEmailController) route.getController();
-                    new enterEmailController(aC,false, stage,eEC);
+                    new enterEmailController(aC,false, stage,eEC,nC);
                     stage.setResizable(false);
                     tempStage.close();
                     stage.setOnCloseRequest(ignoredEvent -> {
@@ -565,7 +563,7 @@ public class AccountController implements Initializable {
                 "Change Password",
                 stage -> {
                      eEC= (enterEmailController) route.getController();
-                    new enterEmailController(aC, true, stage,eEC);
+                    new enterEmailController(aC, true, stage,eEC,nC);
                     tempStage.close();
                     stage.setResizable(false);
                     stage.setOnCloseRequest(ignoredEvent1 -> {
@@ -755,7 +753,8 @@ public class AccountController implements Initializable {
                 aC.startLoginCheck();
             }
         } else if (aC.alreadyHaveAccountButton.isVisible()) {
-            aC.startSignUpCheck();
+            Platform.runLater(()->aC.startSignUpCheck());
+
         }
 
     }

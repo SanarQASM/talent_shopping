@@ -33,9 +33,9 @@ public class enterEmailController {
     private static int countResend = 1;
     private static String messageTemp;
     private static boolean forgetPage;
-    private static final String errorColor=String.valueOf(Colors.BORDER_ERROR_COLOR);
-    private static final String defaultColor= String.valueOf(Colors.BORDER_DEFAULT_COLOR);
-    private static final String cssStyle = String.valueOf(References.CSS_STYLE);
+    private static final String errorColor=Colors.BORDER_ERROR_COLOR.getColor();
+    private static final String defaultColor=Colors.BORDER_DEFAULT_COLOR.getColor();
+    private static final String cssStyle = References.CSS_STYLE.getImageReference();
 
     @FXML
     private TextField code;
@@ -64,14 +64,14 @@ public class enterEmailController {
     @FXML
     private Label time;
 
-    public enterEmailController(AccountController aC, boolean forgetPage, Stage stage, enterEmailController eEC){//open from signup or change password
+    public enterEmailController(AccountController aC, boolean forgetPage, Stage stage, enterEmailController eEC,NotificationsClass nC){//open from signup or change password
         enterEmailController.aC = aC;
         enterEmailController.forgetPage = forgetPage;//if true then it is in forget password through email else it is to register(signup)
         tempStage = stage;
         enterEmailController.eEC = eEC;
-        nC = NotificationsClass.getInstance(tempStage);
+        enterEmailController.nC=nC;
         setEnterKeyword();
-        validate = Validation.getInstance(aC,eEC,null,null);
+        validate = Validation.getInstance(aC,enterEmailController.eEC,null,null);
     }
     public enterEmailController(){}
     public enterEmailController(enterEmailController eEC, Stage stage, SettingController sC, String username) {//open from setting
@@ -81,7 +81,7 @@ public class enterEmailController {
         enterEmailController.username=username;
         nC= NotificationsClass.getInstance(tempStage);
         setEnterKeyword();
-        validate = Validation.getInstance(null,eEC,null,null);
+        validate = Validation.getInstance(null,enterEmailController.eEC,null,null);
     }
 
     //back to recent page
@@ -113,7 +113,7 @@ public class enterEmailController {
         Task<Void> validationTask = createValidationTask();
         setTaskHandlers(validationTask);
         startTask(validationTask);
-        updateUIForProcessing();
+        updateUI(References.CHANGE_STATUS_GIF.getImageReference(),false);
     }
     private Task<Void> createValidationTask() {
         return new Task<>() {
@@ -125,50 +125,28 @@ public class enterEmailController {
             }
         };
     }
-    public void handleErrorForCode(String errorText, String errorMessage, String style) throws Exception {
-        Platform.runLater(() -> {
-            codeError.setText(errorText);
-            code.setStyle(style);
-            messageTemp = errorMessage;
-        });
-        throw new Exception(errorMessage);
-    }
-    public void clearErrorForCode()  {
-        Platform.runLater(() -> {
-            codeError.setText("");
-            code.setStyle(defaultColor);
-            messageTemp = "";
-        });
-    }
+
     private void setTaskHandlers(Task<Void> task) {
         task.setOnFailed(_ -> Platform.runLater(() -> {
-            updateUIOnError();
+            updateUI(References.FORGET_EMAIL_IMAGE.getImageReference(),true);
             nC.showNotificationSomethingWrong(messageTemp);
         }));
         task.setOnSucceeded(_ -> Platform.runLater(() -> {
-            updateUIOnSuccess();
+            updateUI(References.FORGET_EMAIL_IMAGE.getImageReference(),true);
             handleSuccessfulValidation();
         }));
     }
     private void startTask(Task<Void> task) {
-        Image image = new Image(Objects.requireNonNull(getClass().getResource(References.CHANGE_STATUS_GIF.getImageReference())).toString());
-        emailCodeIcon.setImage(image);
-        new Thread(task).start();
+        Platform.runLater(()->{
+            Image image = new Image(Objects.requireNonNull(getClass().getResource(References.CHANGE_STATUS_GIF.getImageReference())).toString());
+            emailCodeIcon.setImage(image);
+            new Thread(task).start();
+        });
     }
-    private void updateUIForProcessing() {
-        Image loadingImage = new Image(Objects.requireNonNull(getClass().getResource(String.valueOf(References.CHANGE_STATUS_GIF))).toString());
-        emailCodeIcon.setImage(loadingImage);
-        emailCodeFrame.setDisable(true);
-    }
-    private void updateUIOnError() {
-        Image errorImage = new Image(Objects.requireNonNull(getClass().getResource(References.FORGET_EMAIL_IMAGE.getImageReference())).toString());
-        emailCodeIcon.setImage(errorImage);
-        emailCodeFrame.setDisable(false);
-    }
-    private void updateUIOnSuccess() {
-        Image successImage = new Image(Objects.requireNonNull(getClass().getResource(References.FORGET_EMAIL_IMAGE.getImageReference())).toString());
-        emailCodeIcon.setImage(successImage);
-        emailCodeFrame.setDisable(false);
+    private void updateUI(String image,boolean disability){
+        Image imageToChange = new Image(image);
+        emailCodeIcon.setImage(imageToChange);
+        emailCodeFrame.setDisable(disability);
     }
     private void handleSuccessfulValidation() {
         try {
@@ -186,7 +164,7 @@ public class enterEmailController {
             nC.showNotificationSomethingWrong(e.getMessage());
         }
     }
-    private void navigateToSignup() throws Exception {
+    private void navigateToSignup(){
         tempStage.close();
         aC.showStage();
         aC.registerDone();
@@ -220,21 +198,35 @@ public class enterEmailController {
                 }
         );
     }
+    public void handleErrorForCode(String errorText, String errorMessage, String style) throws Exception {
+        Platform.runLater(() -> {
+            codeError.setText(errorText);
+            code.setStyle(style);
+            messageTemp = errorMessage;
+        });
+        throw new Exception(errorMessage);
+    }
+    public void clearErrorForCode()  {
+        Platform.runLater(() -> {
+            codeError.setText("");
+            code.setStyle(defaultColor);
+            messageTemp = "";
+        });
+    }
 
     //send code for user email
     @FXML
     void sendCode(ActionEvent ignoredEvent) {
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                processSendCode();
-                return null;
-            }
-        };
-        task.setOnFailed(_ -> handleSendCodeFailure());
-        task.setOnSucceeded(_ -> handleSendCodeSuccess());
-        new Thread(task).start();
-        showSendCodeLoadingState();
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    processSendCode();
+                    return null;
+                }
+            };
+            task.setOnFailed(_ -> handleSendCodeFailure());
+            task.setOnSucceeded(_ -> handleSendCodeSuccess());
+            showLoadingState(task);
     }
     private void processSendCode() throws Exception {
         code.setDisable(true);
@@ -244,26 +236,23 @@ public class enterEmailController {
     }
     private void handleSendCodeSuccess() {
         Platform.runLater(() -> {
-            updateEmailCodeIcon(String.valueOf(References.FORGET_EMAIL_IMAGE));
-            emailCodeFrame.setDisable(false);
+           updateEmailCodeIcon(References.FORGET_EMAIL_IMAGE.getImageReference(),false);
            nC.showNotificationCheckYourEmail();
         });
     }
     private void handleSendCodeFailure() {
         Platform.runLater(() -> {
-            updateEmailCodeIcon(String.valueOf(References.FORGET_EMAIL_IMAGE));
-            emailCodeFrame.setDisable(false);
+            updateEmailCodeIcon(References.FORGET_EMAIL_IMAGE.getImageReference(),false);
             nC.showNotificationSomethingWrong(messageTemp);
         });
     }
-    private void showSendCodeLoadingState() {
-        Platform.runLater(() -> {
-            updateEmailCodeIcon(String.valueOf(References.CHANGE_STATUS_GIF));
-            emailCodeFrame.setDisable(true);
-        });
+    private void showLoadingState(Task<Void> task) {
+        new Thread(task).start();
+        Platform.runLater(() -> updateEmailCodeIcon(References.CHANGE_STATUS_GIF.getImageReference(), true));
     }
-    private void updateEmailCodeIcon(String imagePath) {
+    private void updateEmailCodeIcon(String imagePath,boolean disability) {
         Image image = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toString());
+        emailCodeFrame.setDisable(disability);
         emailCodeIcon.setImage(image);
     }
 
@@ -277,33 +266,34 @@ public class enterEmailController {
         }
     }
     private void handleAccountControllerCase(String emailText) throws Exception {
-        if(forgetPage) {
-            if (validate.checkEmailInDatabase(emailText)) {//if email have then can send message
+        boolean emailExists = validate.checkEmailInDatabase(emailText);
+        if (forgetPage) { // Forget password case
+            if (emailExists) {
+                setEmailSuccess();
                 sendEmail();
             } else {
-                setEmailError("Not Found!", "Please enter a Correct email");
+                setEmailError("Not Found!", "Please enter a correct email.");
             }
-        }
-        else{
-            if (!validate.checkEmailInDatabase(emailText)) {
+        } else { // Sign-up case
+            if (!emailExists) {
+                setEmailSuccess();
                 sendEmail();
             } else {
-                setEmailError("Already Have!", "Please enter a different email");
+                setEmailError("Already Have!", "Please enter a different email.");
             }
         }
     }
+
     private void handleSettingsCase(String emailText) throws Exception {
         if (!validate.checkEmailInDatabase(emailText)) {
             setEmailSuccess();
             sendEmail();
         } else {
             setEmailError("Not Found!!!", "Please enter a correct email!");
-            throw new Exception(messageTemp);
         }
     }
     public void setEmailError(String errorMessage, String tempMessage) throws Exception {
         Platform.runLater(() -> {
-            System.out.println("it is set email error ");
             emailError.setText(errorMessage);
             email.setStyle(errorColor);
             messageTemp = tempMessage;
@@ -388,7 +378,7 @@ public class enterEmailController {
     private void setEnterKeyword(){
         tempStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                if(eEC.processButtonToSendCode.isVisible()){
+                if(!eEC.processButtonToSendCode.isDisable()){
                     startProcess();
                 }
             }

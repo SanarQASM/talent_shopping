@@ -90,7 +90,7 @@ public class Main extends Application {
                         "Talent Shopping",
                         stage -> {
                             AccountController aC = (AccountController) route.getController();
-                            new AccountController(stage, aC);
+                            new AccountController(stage, aC,nC);
                             stage.setResizable(false);
                             stage.setOnCloseRequest(event -> {
                                 event.consume();

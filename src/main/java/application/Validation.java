@@ -11,24 +11,22 @@ public class Validation {
 //    private static final String filePath = "D:/eclipse/IdeaProjects/E-commerce-shopping/src/main/resources/database.txt"; // Path of the file to write to
     private final ClientConnection clientConnection = new ClientConnection("localhost", port);
     private static String response;
-    public Validation(AccountController aC, enterEmailController eEC, ChangePasswordController cPC, ChangeUsernameController cUC){
+    public Validation(){}
+    public static Validation getInstance(AccountController aC, enterEmailController eEC, ChangePasswordController cPC, ChangeUsernameController cUC){
+        if (vClass==null){
+            vClass=new Validation();
+        }
         if (aC!=null){
             Validation.aC = aC;
         }
         if (cPC!=null){
-        Validation.cPC = cPC;
+            Validation.cPC = cPC;
         }
         if(eEC!=null){
             Validation.eEC = eEC;
         }
         if (cUC!=null){
             Validation.cUC=cUC;
-        }
-    }
-    public Validation(){}
-    public static Validation getInstance(AccountController aC, enterEmailController eEC, ChangePasswordController cPC, ChangeUsernameController cUC){
-        if (vClass==null){
-            vClass=new Validation(aC,eEC,cPC,cUC);
         }
         return vClass;
     }
@@ -66,6 +64,9 @@ public class Validation {
         else if (SIPassword.length() >= 225) {
             aC.setErrorForPasswordLogin("Too Long!!!", "Password too long!");
         }
+        else if(SIPassword.length()<8){
+            aC.setErrorForPasswordLogin("Too Short!!!", "Password Must 8 characters!!");
+        }
         else {
             boolean passwordFound = isUsername ? checkPasswordInDatabaseWithUsername(SIUsername, SIPassword)
                     : checkPasswordInDatabaseWithEmail(SIUsername, SIPassword);
@@ -98,7 +99,11 @@ public class Validation {
             boolean strong = cM.checkPassToHaveDigit(SUPassword);
             if (SUPassword.length() >= 225) {
                 aC.showErrorForPasswordSignup("Too Long!!!", "Password is too long");
-            } else if (!strong) {
+            }
+            else if(SUPassword.length()<8){
+                aC.showErrorForPasswordSignup("Too Short!!!", "Password Must Be 8 Characters!");
+            }
+            else if (!strong) {
                 aC.showErrorForPasswordSignup("letter & Digit!", "Password must contain both letters and digits");
             } else {
                 aC.clearErrorForPasswordSignup();
@@ -200,7 +205,6 @@ public class Validation {
             }
     }
     public void checkEmailInEnterEmailController(String emailText) throws Exception {
-        System.out.println("your email is: "+emailText);
         if (emailText.isEmpty()) {
             eEC.setEmailError("Empty!", "Email cannot be empty!");
         }
@@ -208,7 +212,6 @@ public class Validation {
             eEC.setEmailError("Not Found!!!", "Please enter a correct email!");
         }
         else{
-            System.out.println("it is success");
             eEC.setEmailSuccess();
         }
 
